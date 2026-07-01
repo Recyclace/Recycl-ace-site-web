@@ -1,0 +1,50 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  /* Charte Recycl'ace — variables miroir de tailwind.config.ts */
+  --foret: #1F4A38;
+  --encre: #13302A;
+  --marine: #0D1B3D;
+  --creme: #F2E7D6;
+  --terre: #B5603A;
+  --lime: #A8D05D;
+  --emeraude: #0F6B5B;
+  --sauge: #A8B5A1;
+  --parme: #D6C6E7;
+  --sable: #FBF8F0;
+}
+
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--sable);
+  color: var(--encre);
+  font-feature-settings: "ss01";
+  -webkit-font-smoothing: antialiased;
+}
+
+@layer components {
+  .container-x { @apply mx-auto w-full max-w-7xl px-5 sm:px-8; }
+
+  /* Boutons */
+  .btn { @apply inline-flex items-center justify-center gap-2 rounded-full px-6 py-3 text-sm font-semibold transition-all duration-200 active:scale-[.98]; }
+  .btn-primary { @apply btn bg-foret text-white hover:bg-encre; }
+  .btn-accent  { @apply btn bg-lime text-encre hover:brightness-105; }
+  .btn-outline { @apply btn border border-foret/30 text-foret hover:bg-foret hover:text-white; }
+  .btn-ghost   { @apply btn text-foret hover:bg-foret/5; }
+
+  /* Titres */
+  .h-display { @apply font-display leading-[1.02] tracking-tight; font-weight: 800; }
+  .eyebrow { @apply text-xs font-semibold uppercase tracking-[.18em] text-emeraude; }
+
+  .card { @apply rounded-xl2 bg-white shadow-card; }
+  .link-underline { @apply relative after:absolute after:left-0 after:-bottom-1 after:h-[2px] after:w-0 after:bg-lime after:transition-all hover:after:w-full; }
+}
+
+/* Carousel marquee : duplique le contenu et anime -50% */
+.marquee-track { display: flex; width: max-content; }
+
+/* Leaflet : la hauteur doit être fixée */
+.leaflet-container { background: #eef3ee; }
