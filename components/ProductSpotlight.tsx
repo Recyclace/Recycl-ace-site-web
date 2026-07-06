@@ -93,9 +93,9 @@ export default function ProductSpotlight() {
               <div className="grid items-center gap-8 rounded-[1.75rem] bg-white p-6 shadow-card md:grid-cols-2 md:p-10">
                 {/* Image rectangulaire à angles arrondis */}
                 <div className="relative mx-auto w-full max-w-sm">
-                  <div className="absolute -inset-3 -z-10 rounded-[2rem] bg-lime/20 blur-2xl" />
-                  <div className="relative aspect-[4/5] w-full overflow-hidden rounded-[1.5rem] bg-sable ring-1 ring-foret/10">
-                    <Image src={s.img} alt={en ? s.eyebrowEn : s.eyebrowFr} fill sizes="(max-width:768px) 80vw, 40vw" className="object-cover" />
+                  <div className="absolute -inset-3 -z-10 rounded-[2rem] bg-lime/25 blur-2xl" />
+                  <div className="relative aspect-square w-full overflow-hidden rounded-[1.5rem] bg-gradient-to-br from-lime/20 via-sable to-parme/20 ring-1 ring-lime/40">
+                    <Image src={s.img} alt={en ? s.eyebrowEn : s.eyebrowFr} fill sizes="(max-width:768px) 80vw, 40vw" className="object-contain p-5" />
                   </div>
                 </div>
                 <div>

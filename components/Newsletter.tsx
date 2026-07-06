@@ -40,26 +40,30 @@ export default function Newsletter({ variant = "particulier", compact = false }:
     );
   }
 
-  // --- Clubs : encart vert, pleine largeur ---
+  // --- Clubs : bandeau vert fin, pleine largeur ---
   if (club) {
     return (
-      <form onSubmit={submit} className="rounded-xl2 bg-emeraude p-6 text-sable shadow-soft md:p-8">
-        <h3 className="h-display text-xl">{en ? "Clubs newsletter" : "Newsletter Clubs"}</h3>
-        <p className="mt-2 text-sm text-sable/85">
-          {en ? "Receive our monthly club-only offers and new products." : "Recevez chaque mois nos offres et nouveautés dédiées aux clubs"}
-        </p>
-        {state === "done" ? (
-          <p className="mt-3 text-sm font-semibold text-lime">✓ {en ? "You're subscribed. Thank you!" : "Inscription confirmée. Merci !"}</p>
-        ) : (
-          <div className="mt-4 flex flex-col gap-2 sm:flex-row">
-            <input type="email" required value={email} onChange={(e) => setEmail(e.target.value)}
-              placeholder={en ? "Your email" : "Votre e-mail"}
-              className="w-full rounded-xl border border-white/20 bg-white/95 px-4 py-3 text-encre focus:outline-none focus:ring-2 focus:ring-lime" />
-            <button disabled={state === "loading"} className="shrink-0 rounded-xl bg-lime px-6 py-3 font-semibold text-encre transition hover:brightness-105 disabled:opacity-60">
-              {state === "loading" ? "…" : (en ? "Subscribe" : "S'inscrire")}
-            </button>
+      <form onSubmit={submit} className="rounded-xl2 bg-emeraude px-5 py-4 text-sable shadow-card md:px-6">
+        <div className="flex flex-col gap-3 md:flex-row md:items-center md:justify-between md:gap-6">
+          <div className="md:max-w-xs">
+            <h3 className="font-display text-base" style={{ fontWeight: 700 }}>{en ? "Clubs newsletter" : "Newsletter Clubs"}</h3>
+            <p className="mt-0.5 text-xs text-sable/80">
+              {en ? "Receive our monthly club-only offers and new products." : "Recevez chaque mois nos offres et nouveautés dédiées aux clubs"}
+            </p>
           </div>
-        )}
+          {state === "done" ? (
+            <p className="text-sm font-semibold text-lime">✓ {en ? "You're subscribed. Thank you!" : "Inscription confirmée. Merci !"}</p>
+          ) : (
+            <div className="flex w-full gap-2 md:w-auto">
+              <input type="email" required value={email} onChange={(e) => setEmail(e.target.value)}
+                placeholder={en ? "Your email" : "Votre e-mail"}
+                className="w-full rounded-lg border border-white/20 bg-white/95 px-3 py-2 text-sm text-encre focus:outline-none focus:ring-2 focus:ring-lime md:w-56" />
+              <button disabled={state === "loading"} className="shrink-0 rounded-lg bg-lime px-4 py-2 text-sm font-semibold text-encre transition hover:brightness-105 disabled:opacity-60">
+                {state === "loading" ? "…" : (en ? "Subscribe" : "S'inscrire")}
+              </button>
+            </div>
+          )}
+        </div>
         {state === "error" && <p className="mt-2 text-xs text-sable/70">{en ? "Please check your email address." : "Vérifiez votre adresse e-mail."}</p>}
       </form>
     );

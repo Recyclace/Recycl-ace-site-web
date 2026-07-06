@@ -27,15 +27,17 @@ export default function ClubsPage() {
   // 2 rangées : image (même format 4:5) + texte, à la même hauteur (items-stretch), avec touches peps
   const rows = [
     {
-      img: "/assets/aobuc/aobuc-gourde.jpg",
+      img: "/assets/aobuc/aobuc-members.jpg",
       tint: "bg-lime/12",
+      text: "text-encre/85",
       body: en
         ? "The club ordered Ace Gourde bottles personalised with its own logo for all its members, to thank them for their commitment throughout the year and to highlight the club's CSR engagement. They wanted to give meaning to ball collection and raise players' awareness in a fun way."
         : "Le club a commandé des Ace Gourdes personnalisées à son logo pour l'ensemble de ses adhérents, afin de les remercier de leur engagement sur l'année et de mettre en avant l'engagement RSE du club. Ils voulaient donner du sens à la collecte des balles et sensibiliser de façon ludique les joueurs.",
     },
     {
-      img: "/assets/aobuc/aobuc-team.jpg",
-      tint: "bg-parme/30",
+      img: "/assets/aobuc/aobuc-intervention.jpg",
+      tint: "bg-sauge",
+      text: "text-foret",
       reverse: true,
       body: en
         ? "The Recycl'ace team also came on-site during a key club event to present the approach and run a stand, raising players' awareness in a fun way with concrete recycling outlets. The club is delighted with the operation."
@@ -99,7 +101,7 @@ export default function ClubsPage() {
                   <Image src={r.img} alt="AOBUC × Recycl'ace" fill sizes="(max-width:768px) 100vw, 45vw" className="object-cover" />
                 </div>
                 <div className={`flex items-center rounded-xl2 ${r.tint} p-6 text-center md:p-8 md:text-left`}>
-                  <p className="text-encre/85">{r.body}</p>
+                  <p className={r.text}>{r.body}</p>
                 </div>
               </div>
             ))}
