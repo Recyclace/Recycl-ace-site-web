@@ -118,7 +118,7 @@ export default function StoryPage() {
       </section>
 
       <section className="container-x py-12 text-center">
-        <Link href="/clubs" className="btn-primary">{en ? "Are you a club? Contact us" : "Vous êtes un Club ? Contactez-nous"}</Link>
+        <Link href="/clubs" className="btn-primary">{en ? "Are you a club? Contact us" : "Vous êtes un club ? Contactez-nous"}</Link>
       </section>
     </div>
   );

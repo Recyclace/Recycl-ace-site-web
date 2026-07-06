@@ -43,7 +43,7 @@ export default function Newsletter({ variant = "particulier", compact = false }:
   // --- Clubs : encart vert, pleine largeur ---
   if (club) {
     return (
-      <form onSubmit={submit} className="rounded-xl2 bg-gradient-to-br from-emeraude to-foret p-6 text-sable shadow-soft md:p-8">
+      <form onSubmit={submit} className="rounded-xl2 bg-emeraude p-6 text-sable shadow-soft md:p-8">
         <h3 className="h-display text-xl">{en ? "Clubs newsletter" : "Newsletter Clubs"}</h3>
         <p className="mt-2 text-sm text-sable/85">
           {en ? "Receive our monthly club-only offers and new products." : "Recevez chaque mois nos offres et nouveautés dédiées aux clubs"}

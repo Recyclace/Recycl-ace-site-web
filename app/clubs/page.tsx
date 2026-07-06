@@ -24,41 +24,29 @@ export default function ClubsPage() {
       title: en ? "Offer gear in your own image thanks to your logo on the Ace Gourde" : "Proposez des équipements à votre image grâce à votre logo sur la Ace Gourde" },
   ];
 
-  // Rangées alternées texte / image (images affichées à leur taille native → nettes, jamais agrandies à l'excès)
-  const rows: { img: string; w: number; h: number; reverse?: boolean; body: React.ReactNode }[] = [
+  // 2 rangées : image (même format 4:5) + texte, à la même hauteur (items-stretch), avec touches peps
+  const rows = [
     {
-      img: "/assets/aobuc/aobuc-members.jpg", w: 243, h: 185,
-      body: (
-        <p className="text-encre/80">
-          {en
-            ? "The club ordered Ace Gourde bottles personalised with its own logo for all its members, to thank them for their commitment throughout the year and to highlight the club's CSR engagement. They wanted to give meaning to ball collection and raise players' awareness in a fun way."
-            : "Le club a commandé des Ace Gourdes personnalisées à son logo pour l'ensemble de ses adhérents, afin de les remercier de leur engagement sur l'année et de mettre en avant l'engagement RSE du club. Ils voulaient donner du sens à la collecte des balles et sensibiliser de façon ludique les joueurs."}
-        </p>
-      ),
+      img: "/assets/aobuc/aobuc-gourde.jpg",
+      tint: "bg-lime/12",
+      body: en
+        ? "The club ordered Ace Gourde bottles personalised with its own logo for all its members, to thank them for their commitment throughout the year and to highlight the club's CSR engagement. They wanted to give meaning to ball collection and raise players' awareness in a fun way."
+        : "Le club a commandé des Ace Gourdes personnalisées à son logo pour l'ensemble de ses adhérents, afin de les remercier de leur engagement sur l'année et de mettre en avant l'engagement RSE du club. Ils voulaient donner du sens à la collecte des balles et sensibiliser de façon ludique les joueurs.",
     },
     {
-      img: "/assets/aobuc/aobuc-team.jpg", w: 189, h: 317, reverse: true,
-      body: (
-        <p className="text-encre/80">
-          {en
-            ? "The Recycl'ace team also came on-site during a key club event to present the approach and run a stand, raising players' awareness in a fun way with concrete recycling outlets. The club is delighted with the operation."
-            : "L'équipe Recycl'ace est également venue sur place lors d'un événement clé du club pour présenter la démarche et animer un stand, sensibilisant de façon ludique les joueurs grâce à des exutoires concrets. Le club est ravi de cette action."}
-        </p>
-      ),
+      img: "/assets/aobuc/aobuc-team.jpg",
+      tint: "bg-parme/30",
+      reverse: true,
+      body: en
+        ? "The Recycl'ace team also came on-site during a key club event to present the approach and run a stand, raising players' awareness in a fun way with concrete recycling outlets. The club is delighted with the operation."
+        : "L'équipe Recycl'ace est également venue sur place lors d'un événement clé du club pour présenter la démarche et animer un stand, sensibilisant de façon ludique les joueurs grâce à des exutoires concrets. Le club est ravi de cette action.",
     },
   ];
 
   const verbatims = en
     ? ["The concept and the product caught our eye.", "Players love the Ace Gourde, both visually and in everyday use.", "The team is very friendly, professional and available."]
     : ["Le concept et le produit nous ont tapé dans l'œil.", "Les joueurs adorent la Ace Gourde, tant visuellement qu'en termes d'utilisation.", "L'équipe est très sympathique, professionnelle et disponible."];
-
-  const Frame = ({ img, w, h }: { img: string; w: number; h: number }) => (
-    <div className="flex justify-center">
-      <div className="relative w-full overflow-hidden rounded-[1.5rem] bg-white p-2 shadow-soft ring-1 ring-foret/10" style={{ maxWidth: w + 16 }}>
-        <Image src={img} alt="AOBUC × Recycl'ace" width={w} height={h} className="h-auto w-full rounded-[1.1rem]" />
-      </div>
-    </div>
-  );
+  const vTints = ["border-lime", "border-terre", "border-emeraude"];
 
   return (
     <div className="pb-10">
@@ -104,27 +92,28 @@ export default function ClubsPage() {
             <h2 className="h-display mt-3 text-3xl text-encre md:text-4xl">{en ? "The AOBUC Tennis Club's feedback" : "Le retour d'expérience du Tennis Club de l'AOBUC"}</h2>
           </div>
 
-          <div className="mx-auto mt-12 max-w-5xl space-y-12">
+          <div className="mx-auto mt-12 max-w-5xl space-y-6">
             {rows.map((r, i) => (
-              <div key={i} className={`grid items-center gap-8 md:grid-cols-2 ${r.reverse ? "md:[&>*:first-child]:order-2" : ""}`}>
-                <Frame img={r.img} w={r.w} h={r.h} />
-                <div>{r.body}</div>
+              <div key={i} className={`grid items-stretch gap-6 md:grid-cols-2 ${r.reverse ? "md:[&>*:first-child]:order-2" : ""}`}>
+                <div className="relative min-h-[300px] w-full overflow-hidden rounded-xl2 shadow-card">
+                  <Image src={r.img} alt="AOBUC × Recycl'ace" fill sizes="(max-width:768px) 100vw, 45vw" className="object-cover" />
+                </div>
+                <div className={`flex items-center rounded-xl2 ${r.tint} p-6 text-center md:p-8 md:text-left`}>
+                  <p className="text-encre/85">{r.body}</p>
+                </div>
               </div>
             ))}
 
-            {/* Verbatims + photo gourde orange */}
-            <div className="grid items-center gap-8 md:grid-cols-2">
-              <Frame img="/assets/aobuc/aobuc-gourde.jpg" w={454} h={483} />
-              <div>
-                <span className="eyebrow">{en ? "In their words" : "Ils en parlent"}</span>
-                <div className="mt-4 space-y-3">
-                  {verbatims.map((v, i) => (
-                    <blockquote key={i} className="group flex gap-3 rounded-xl2 border-l-4 border-lime bg-white p-4 shadow-card transition-transform hover:-translate-y-0.5">
-                      <span className="font-display text-3xl leading-none text-lime" style={{ fontWeight: 800 }}>“</span>
-                      <p className="text-sm font-medium italic text-emeraude">{v}</p>
-                    </blockquote>
-                  ))}
-                </div>
+            {/* Verbatims peps */}
+            <div className="pt-4">
+              <p className="mb-4 text-center eyebrow">{en ? "In their words" : "Ils en parlent"}</p>
+              <div className="grid gap-4 md:grid-cols-3">
+                {verbatims.map((v, i) => (
+                  <blockquote key={i} className={`flex flex-col items-center rounded-xl2 border-t-4 ${vTints[i]} bg-white p-6 text-center shadow-card transition-transform hover:-translate-y-1`}>
+                    <span className="font-display text-4xl leading-none text-lime" style={{ fontWeight: 800 }}>“</span>
+                    <p className="mt-2 text-sm font-medium italic text-emeraude">{v}</p>
+                  </blockquote>
+                ))}
               </div>
             </div>
 
@@ -138,7 +127,7 @@ export default function ClubsPage() {
         </div>
       </section>
 
-      {/* Formulaire pleine largeur + newsletter clubs (vert) en dessous */}
+      {/* Formulaire pleine largeur + newsletter clubs en dessous */}
       <section id="club-form" className="container-x scroll-mt-24 py-16">
         <div className="mx-auto max-w-4xl space-y-8">
           <ClubForm />

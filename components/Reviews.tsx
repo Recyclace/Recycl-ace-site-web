@@ -58,7 +58,7 @@ export default function Reviews() {
       <div className="container-x">
         <div className="mb-8 text-center">
           <span className="eyebrow">{en ? "Reviews" : "Avis clients"}</span>
-          <h2 className="h-display mt-3 text-3xl text-encre md:text-4xl">{en ? "They play sustainable" : "Ils jouent durable"}</h2>
+          <h2 className="h-display mt-3 text-3xl text-encre md:text-4xl">{en ? "They chose a more responsible sport" : "Ils ont opté pour un sport plus responsable"}</h2>
           <div className="mt-3 flex items-center justify-center gap-2">
             <Stars n={parseFloat(avg)} size={20} />
             <span className="font-semibold text-encre">{avg}/5</span>
