@@ -5,7 +5,6 @@ import { seedReviews, loadApprovedReviews, submitReview, Review } from "@/lib/re
 
 const STAR = "M12 2l2.4 7.4H22l-6 4.4 2.3 7.2L12 16.6 5.7 21l2.3-7.2-6-4.4h7.6z";
 
-// Étoiles avec support des demi-notes (ex : 4,5/5)
 export function Stars({ n, size = 16 }: { n: number; size?: number }) {
   const pct = Math.max(0, Math.min(100, (n / 5) * 100));
   const Row = ({ fill }: { fill: boolean }) => (
@@ -23,10 +22,13 @@ export function Stars({ n, size = 16 }: { n: number; size?: number }) {
   );
 }
 
+const PAGE = 3;
+
 export default function Reviews() {
   const { lang } = useLang();
   const en = lang === "en";
   const [dbReviews, setDbReviews] = useState<Review[]>([]);
+  const [page, setPage] = useState(0);
   const [name, setName] = useState("");
   const [rating, setRating] = useState(5);
   const [hover, setHover] = useState(0);
@@ -38,6 +40,9 @@ export default function Reviews() {
 
   const all = [...seedReviews, ...dbReviews];
   const avg = all.length ? (all.reduce((s, r) => s + r.rating, 0) / all.length).toFixed(1) : "5.0";
+  const pages = Math.max(1, Math.ceil(all.length / PAGE));
+  const go = (d: number) => setPage((p) => (p + d + pages) % pages);
+  const shown = all.slice(page * PAGE, page * PAGE + PAGE);
 
   const submit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -51,7 +56,7 @@ export default function Reviews() {
   return (
     <section className="bg-sable/60 py-16 md:py-20">
       <div className="container-x">
-        <div className="mb-10 text-center">
+        <div className="mb-8 text-center">
           <span className="eyebrow">{en ? "Reviews" : "Avis clients"}</span>
           <h2 className="h-display mt-3 text-3xl text-encre md:text-4xl">{en ? "They play sustainable" : "Ils jouent durable"}</h2>
           <div className="mt-3 flex items-center justify-center gap-2">
@@ -61,14 +66,28 @@ export default function Reviews() {
           </div>
         </div>
 
-        <div className="grid gap-5 md:grid-cols-2 lg:grid-cols-4">
-          {all.slice(0, 8).map((r) => (
-            <div key={r.id} className="card flex flex-col p-6">
-              <Stars n={r.rating} />
-              <p className="mt-3 flex-1 text-sm text-encre/75">« {r.text} »</p>
-              <p className="mt-4 text-sm font-semibold text-foret">{r.name}</p>
-            </div>
-          ))}
+        <div className="flex items-center gap-3">
+          <button onClick={() => go(-1)} aria-label="Précédent" className="hidden h-11 w-11 shrink-0 place-items-center rounded-full border border-foret/20 text-foret transition hover:bg-foret hover:text-white sm:grid">←</button>
+          <div className="grid flex-1 gap-5 md:grid-cols-3">
+            {shown.map((r) => (
+              <div key={r.id} className="card flex flex-col p-6">
+                <Stars n={r.rating} />
+                <p className="mt-3 flex-1 text-sm text-encre/75">« {r.text} »</p>
+                <p className="mt-4 text-sm font-semibold text-foret">{r.name}</p>
+              </div>
+            ))}
+          </div>
+          <button onClick={() => go(1)} aria-label="Suivant" className="hidden h-11 w-11 shrink-0 place-items-center rounded-full border border-foret/20 text-foret transition hover:bg-foret hover:text-white sm:grid">→</button>
+        </div>
+
+        <div className="mt-6 flex items-center justify-center gap-3">
+          <button onClick={() => go(-1)} aria-label="Précédent" className="grid h-10 w-10 place-items-center rounded-full border border-foret/20 text-foret sm:hidden">←</button>
+          <div className="flex gap-2">
+            {Array.from({ length: pages }).map((_, i) => (
+              <button key={i} onClick={() => setPage(i)} aria-label={`Page ${i + 1}`} className={`h-2.5 rounded-full transition-all ${i === page ? "w-7 bg-foret" : "w-2.5 bg-foret/25"}`} />
+            ))}
+          </div>
+          <button onClick={() => go(1)} aria-label="Suivant" className="grid h-10 w-10 place-items-center rounded-full border border-foret/20 text-foret sm:hidden">→</button>
         </div>
 
         <div className="mx-auto mt-12 max-w-xl">

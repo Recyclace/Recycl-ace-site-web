@@ -1,11 +1,13 @@
 "use client";
 import Image from "next/image";
+import { useEffect, useRef } from "react";
 import { useLang } from "@/context/LanguageContext";
 
 type Photo = { type: "photo"; src: string; tag: string; tagEn: string };
 type Quote = { type: "quote"; text: string; author: string; rating: number };
 type Item = Photo | Quote;
 
+// Alternance stricte photo / avis (compte pair, se termine par un avis → pas de doublon à la boucle)
 const items: Item[] = [
   { type: "photo", src: "/assets/produits/gourde-turquoise-3.jpg", tag: "Ace Gourde", tagEn: "Ace Gourde" },
   { type: "quote", text: "Le concept et le produit nous ont tapé dans l'œil.", author: "AOBUC Tennis Club", rating: 5 },
@@ -17,7 +19,6 @@ const items: Item[] = [
   { type: "quote", text: "Concept malin et bien exécuté. Enfin une marque de sport qui prend le sujet écolo au sérieux sans rien lâcher sur la qualité.", author: "Louis", rating: 5 },
   { type: "photo", src: "/assets/produits/duo-turquoise-3.jpg", tag: "Ace Gourde", tagEn: "Ace Gourde" },
   { type: "quote", text: "Des valeurs fortes autour du développement durable.", author: "Jean T.", rating: 4.5 },
-  { type: "photo", src: "/assets/produits/gourde-terre-3.jpg", tag: "Ace Gourde", tagEn: "Ace Gourde" },
 ];
 
 const STAR = "M12 2l2.4 7.4H22l-6 4.4 2.3 7.2L12 16.6 5.7 21l2.3-7.2-6-4.4h7.6z";
@@ -52,16 +53,48 @@ export default function SocialProof() {
   const { lang } = useLang();
   const en = lang === "en";
   const doubled = [...items, ...items];
+  const ref = useRef<HTMLDivElement>(null);
+  const paused = useRef(false);
+
+  useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+    let raf = 0;
+    const step = () => {
+      if (!paused.current && el.scrollWidth > 0) {
+        el.scrollLeft += 0.4;
+        if (el.scrollLeft >= el.scrollWidth / 2) el.scrollLeft -= el.scrollWidth / 2;
+      }
+      raf = requestAnimationFrame(step);
+    };
+    raf = requestAnimationFrame(step);
+    return () => cancelAnimationFrame(raf);
+  }, []);
+
+  const nudge = (dir: number) => {
+    const el = ref.current;
+    if (el) el.scrollBy({ left: dir * 300, behavior: "smooth" });
+  };
+
   return (
     <section className="overflow-hidden py-16 md:py-20">
-      <div className="container-x mb-8 text-center">
-        <span className="eyebrow">{en ? "On the field" : "Sur le terrain"}</span>
-        <h2 className="h-display mt-3 text-3xl text-encre md:text-4xl">{en ? "They've adopted the Ace range" : "Ils ont adopté la gamme Ace"}</h2>
-      </div>
-      <div className="group relative [mask-image:linear-gradient(to_right,transparent,black_6%,black_94%,transparent)]">
-        <div className="marquee-track gap-5 pr-5 group-hover:[animation-play-state:paused]" style={{ animation: "marquee 55s linear infinite" }}>
-          {doubled.map((it, i) => <Card key={i} it={it} en={en} />)}
+      <div className="container-x mb-8 flex flex-wrap items-end justify-between gap-4">
+        <div>
+          <span className="eyebrow">{en ? "On the field" : "Sur le terrain"}</span>
+          <h2 className="h-display mt-3 text-3xl text-encre md:text-4xl">{en ? "They've adopted the Ace range" : "Ils ont adopté la gamme Ace"}</h2>
         </div>
+        <div className="flex items-center gap-2">
+          <button onClick={() => nudge(-1)} aria-label="Précédent" className="grid h-11 w-11 place-items-center rounded-full border border-foret/20 text-foret transition hover:bg-foret hover:text-white">←</button>
+          <button onClick={() => nudge(1)} aria-label="Suivant" className="grid h-11 w-11 place-items-center rounded-full border border-foret/20 text-foret transition hover:bg-foret hover:text-white">→</button>
+        </div>
+      </div>
+      <div
+        ref={ref}
+        onMouseEnter={() => (paused.current = true)}
+        onMouseLeave={() => (paused.current = false)}
+        className="flex gap-5 overflow-x-auto px-[max(1.5rem,calc((100vw-1200px)/2))] [-ms-overflow-style:none] [scrollbar-width:none] [mask-image:linear-gradient(to_right,transparent,black_5%,black_95%,transparent)] [&::-webkit-scrollbar]:hidden"
+      >
+        {doubled.map((it, i) => <Card key={i} it={it} en={en} />)}
       </div>
     </section>
   );

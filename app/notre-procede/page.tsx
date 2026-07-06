@@ -29,7 +29,7 @@ export default function ProcessPage() {
   return (
     <div className="pb-4">
       <section className="bg-foret py-20 text-sable">
-        <div className="container-x max-w-3xl">
+        <div className="container-x">
           <span className="eyebrow text-lime">{en ? "A major ecological problem" : "Un problème écologique majeur"}</span>
           <h1 className="h-display mt-3 text-4xl md:text-5xl">
             {en ? "17 million balls thrown away every year." : "17 millions de balles jetées chaque année."}

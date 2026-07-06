@@ -38,10 +38,11 @@ export type Shop = { name: string; city: string; lat: number; lng: number };
 
 // Magasins spécialisés référençant la gamme Ace (points de vente physiques)
 export const shops: Shop[] = [
-  { name: "Magasin partenaire", city: "Limoges", lat: 45.8336, lng: 1.2611 },
-  { name: "Magasin partenaire", city: "Nice", lat: 43.7009, lng: 7.2683 },
-  { name: "Magasin partenaire", city: "Paris", lat: 48.8566, lng: 2.3522 },
-  { name: "Magasin partenaire", city: "Neuilly-sur-Seine", lat: 48.8846, lng: 2.2685 },
-  { name: "Magasin partenaire", city: "Boulogne-Billancourt", lat: 48.8355, lng: 2.2400 },
-  { name: "Magasin partenaire", city: "Vincennes", lat: 48.8478, lng: 2.4386 },
+  // Coordonnées légèrement décalées des clubs pour que les 2 pastilles restent visibles
+  { name: "Magasin partenaire", city: "Limoges", lat: 45.8586, lng: 1.3211 },
+  { name: "Magasin partenaire", city: "Nice", lat: 43.7209, lng: 7.3183 },
+  { name: "Magasin partenaire", city: "Paris", lat: 48.8766, lng: 2.4022 },
+  { name: "Magasin partenaire", city: "Neuilly-sur-Seine", lat: 48.9046, lng: 2.3185 },
+  { name: "Magasin partenaire", city: "Boulogne-Billancourt", lat: 48.8155, lng: 2.2000 },
+  { name: "Magasin partenaire", city: "Vincennes", lat: 48.8678, lng: 2.4886 },
 ];

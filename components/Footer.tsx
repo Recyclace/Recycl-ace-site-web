@@ -23,13 +23,6 @@ export default function Footer() {
   ];
   return (
     <footer className="mt-24 bg-encre text-sable">
-      {/* Newsletter particuliers */}
-      <div className="border-b border-sable/10">
-        <div className="container-x flex flex-col items-center gap-4 py-12 text-center">
-          <h3 className="h-display text-2xl text-sable">{en ? "Stay in the loop" : "Restez dans la boucle"}</h3>
-          <Newsletter variant="particulier" />
-        </div>
-      </div>
       <div className="container-x flex flex-col items-center gap-8 py-14 text-center">
         <Image src="/assets/logos/logo-recyclace-white.png" alt="Recycl'ace" width={190} height={42} />
         <p className="font-display text-xl text-lime" style={{ fontWeight: 800 }}>
@@ -50,11 +43,16 @@ export default function Footer() {
         </div>
       </div>
       <div className="border-t border-sable/10">
-        <div className="container-x flex flex-col items-center gap-3 py-5 text-xs text-sable/50">
-          <nav className="flex flex-wrap items-center justify-center gap-x-5 gap-y-1">
-            {legal.map((l) => <Link key={l.href} href={l.href} className="hover:text-lime">{l.label}</Link>)}
-          </nav>
-          <p>© {year} Recycl'ace. {t.footer.rights}</p>
+        <div className="container-x flex flex-col gap-4 py-5 text-xs text-sable/50 md:flex-row md:items-center md:justify-between">
+          <div className="flex flex-col items-center gap-2 md:items-start">
+            <nav className="flex flex-wrap items-center justify-center gap-x-5 gap-y-1 md:justify-start">
+              {legal.map((l) => <Link key={l.href} href={l.href} className="hover:text-lime">{l.label}</Link>)}
+            </nav>
+            <p>© {year} Recycl'ace. {t.footer.rights}</p>
+          </div>
+          <div className="flex justify-center md:justify-end">
+            <Newsletter variant="particulier" compact />
+          </div>
         </div>
       </div>
     </footer>
