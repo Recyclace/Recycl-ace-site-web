@@ -14,6 +14,7 @@ export async function POST(req: Request) {
   const db = adminDb();
   if (!db) return NextResponse.json({ error: "service_role_missing" }, { status: 400 });
   const b = await req.json();
+  if (b.action === "delete") { const { error } = await db.from("orders").delete().eq("id", b.id); return NextResponse.json({ ok: !error, error: error?.message }); }
   if (b.action === "status") { const { error } = await db.from("orders").update({ status: b.status }).eq("id", b.id); return NextResponse.json({ ok: !error, error: error?.message }); }
   return NextResponse.json({ error: "bad action" }, { status: 400 });
 }
