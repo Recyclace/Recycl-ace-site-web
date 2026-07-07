@@ -12,7 +12,7 @@ const items: Item[] = [
   { type: "photo", src: "/assets/produits/gourde-turquoise-3.jpg", tag: "Ace Gourde", tagEn: "Ace Gourde" },
   { type: "quote", text: "Le concept et le produit nous ont tapé dans l'œil.", author: "AOBUC Tennis Club", rating: 5 },
   { type: "photo", src: "/assets/produits/vibe-turquoise-1.jpg", tag: "Ace Vibe", tagEn: "Ace Vibe" },
-  { type: "quote", text: "La gourde tient parfaitement au frais toute la journée et la prise en main avec le revêtement grip est vraiment agréable. Je la prends partout avec moi !", author: "Marina D.", rating: 4.5 },
+  { type: "quote", text: "La gourde tient parfaitement au frais sur une partie et la prise en main avec le revêtement grip est vraiment agréable. Je la prends partout avec moi !", author: "Marina D.", rating: 4.5 },
   { type: "photo", src: "/assets/produits/gourde-bleu-3.jpg", tag: "Ace Gourde", tagEn: "Ace Gourde" },
   { type: "quote", text: "Très bonnes sensations au toucher avec l'anti-vibrateur, malgré un premier a priori qui s'est très vite effacé !", author: "JP", rating: 4.5 },
   { type: "photo", src: "/assets/produits/vibe-lavande-4.jpg", tag: "Ace Vibe", tagEn: "Ace Vibe" },

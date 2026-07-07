@@ -18,7 +18,7 @@ export const seedReviews: Review[] = [
   { id: "s6", name: "Louis", rating: 5, approved: true, createdAt: 0,
     text: "Concept malin et bien exécuté. Enfin une marque de sport qui prend le sujet écolo au sérieux sans rien lâcher sur la qualité." },
   { id: "s7", name: "Marina D.", rating: 4.5, approved: true, createdAt: 0,
-    text: "La gourde tient parfaitement au frais toute la journée et la prise en main avec le revêtement grip est vraiment agréable. Je la prends partout avec moi !" },
+    text: "La gourde tient parfaitement au frais sur une partie et la prise en main avec le revêtement grip est vraiment agréable. Je la prends partout avec moi !" },
 ];
 
 // Avis validés publics (Supabase)
