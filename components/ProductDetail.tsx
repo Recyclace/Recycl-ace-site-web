@@ -53,8 +53,8 @@ export default function ProductDetail({ product }: { product: Product }) {
   const [open, setOpen] = useState<number | null>(0);
   const [justAdded, setJustAdded] = useState(false);
 
-  const color = product.colors[colorIdx];
-  const color2 = product.colors[colorIdx2] || product.colors[0];
+  const color = ov.colors[colorIdx] || product.colors[colorIdx];
+  const color2 = ov.colors[colorIdx2] || ov.colors[0] || product.colors[0];
   const selectColor = (i: number) => { setColorIdx(i); setImgIdx(0); };
 
   const handleAdd = () => {

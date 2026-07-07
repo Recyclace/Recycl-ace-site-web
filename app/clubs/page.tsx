@@ -39,7 +39,7 @@ export default function ClubsPage() {
       img: "/assets/aobuc/aobuc-intervention.jpg",
       tint: "bg-sauge",
       text: "text-foret",
-      imgClass: "object-contain",
+      imgClass: "object-cover object-top",
       reverse: true,
       body: en
         ? "The Recycl'ace team also came on-site during a key club event to present the approach and run a stand, raising players' awareness in a fun way with concrete recycling outlets. The club is delighted with the operation."

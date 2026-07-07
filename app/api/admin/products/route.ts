@@ -33,6 +33,8 @@ export async function POST(req: Request) {
     name_fr: o.name_fr || null, name_en: o.name_en || null,
     description_fr: o.description_fr || null, description_en: o.description_en || null,
     badge_fr: o.badge_fr || null, badge_en: o.badge_en || null,
+    image_url: o.image_url || null,
+    colors: Array.isArray(o.colors) && o.colors.length ? o.colors : null,
     discount: Number(o.discount) || 0,
     active: o.active === false ? false : true,
     sort: Number(o.sort) || 0,
