@@ -10,7 +10,7 @@ type Slide = { slug: string; img: string; eyebrowFr: string; eyebrowEn: string; 
 const IC = {
   leaf: "M11 20A7 7 0 0 1 4 13C4 8 8 4 20 4c0 12-4 16-9 16Z M8 16c2-4 5-6 9-7",
   shield: "M12 3l7 3v5c0 4.6-3.1 7.7-7 9-3.9-1.3-7-4.4-7-9V6z M9.5 12l1.8 1.8L15 10",
-  comfort: "M4 11V8.5A2.5 2.5 0 0 1 6.5 6h11A2.5 2.5 0 0 1 20 8.5V11 M3 11a2 2 0 0 1 2 2v3h14v-3a2 2 0 0 1 2-2 M6 16v2 M18 16v2",
+  comfort: "M14 9V5a3 3 0 0 0-3-3l-4 9v11h11.28a2 2 0 0 0 2-1.7l1.38-9a2 2 0 0 0-2-2.3z M7 22H4a2 2 0 0 1-2-2v-7a2 2 0 0 1 2-2h3",
   bolt: "M13 3 4 14h6l-1 7 9-11h-6z",
   target: "M20 4 13 11 M20 9.5V4h-5.5 M12 3.2a8.8 8.8 0 1 0 8.8 8.8 M12 7.5a4.5 4.5 0 1 0 4.5 4.5",
 };

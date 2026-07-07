@@ -30,7 +30,7 @@ export default function ClubsPage() {
       img: "/assets/aobuc/aobuc-members.jpg",
       tint: "bg-lime/12",
       text: "text-encre/85",
-      objPos: "object-center",
+      imgClass: "object-cover object-center",
       body: en
         ? "The club ordered Ace Gourde bottles personalised with its own logo for all its members, to thank them for their commitment throughout the year and to highlight the club's CSR engagement. They wanted to give meaning to ball collection and raise players' awareness in a fun way."
         : "Le club a commandé des Ace Gourdes personnalisées à son logo pour l'ensemble de ses adhérents, afin de les remercier de leur engagement sur l'année et de mettre en avant l'engagement RSE du club. Ils voulaient donner du sens à la collecte des balles et sensibiliser de façon ludique les joueurs.",
@@ -39,7 +39,7 @@ export default function ClubsPage() {
       img: "/assets/aobuc/aobuc-intervention.jpg",
       tint: "bg-sauge",
       text: "text-foret",
-      objPos: "object-[center_22%]",
+      imgClass: "object-contain",
       reverse: true,
       body: en
         ? "The Recycl'ace team also came on-site during a key club event to present the approach and run a stand, raising players' awareness in a fun way with concrete recycling outlets. The club is delighted with the operation."
@@ -99,8 +99,8 @@ export default function ClubsPage() {
           <div className="mx-auto mt-12 max-w-5xl space-y-6">
             {rows.map((r, i) => (
               <div key={i} className={`grid items-stretch gap-6 md:grid-cols-2 ${r.reverse ? "md:[&>*:first-child]:order-2" : ""}`}>
-                <div className="relative min-h-[300px] w-full overflow-hidden rounded-xl2 shadow-card">
-                  <Image src={r.img} alt="AOBUC × Recycl'ace" fill sizes="(max-width:768px) 100vw, 45vw" className={`object-cover ${r.objPos}`} />
+                <div className="relative min-h-[300px] w-full overflow-hidden rounded-xl2 bg-sable shadow-card">
+                  <Image src={r.img} alt="AOBUC × Recycl'ace" fill sizes="(max-width:768px) 100vw, 45vw" className={r.imgClass} />
                 </div>
                 <div className={`flex items-center rounded-xl2 ${r.tint} p-6 text-center md:p-8 md:text-left`}>
                   <p className={r.text}>{r.body}</p>

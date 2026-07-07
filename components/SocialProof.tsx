@@ -55,6 +55,7 @@ export default function SocialProof() {
   const doubled = [...items, ...items];
   const ref = useRef<HTMLDivElement>(null);
   const paused = useRef(false);
+  const resumeT = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   useEffect(() => {
     const el = ref.current;
@@ -73,7 +74,12 @@ export default function SocialProof() {
 
   const nudge = (dir: number) => {
     const el = ref.current;
-    if (el) el.scrollBy({ left: dir * 300, behavior: "smooth" });
+    if (!el) return;
+    paused.current = true; // stoppe l'auto-défilement pour que la flèche agisse vraiment
+    if (dir < 0 && el.scrollLeft < 320) el.scrollLeft += el.scrollWidth / 2; // recul possible même au début (contenu dupliqué)
+    el.scrollBy({ left: dir * 320, behavior: "smooth" });
+    if (resumeT.current) clearTimeout(resumeT.current);
+    resumeT.current = setTimeout(() => { paused.current = false; }, 1600);
   };
 
   return (
