@@ -45,7 +45,7 @@ export async function sendOrderEmail(order: any) {
     await fetch("https://api.resend.com/emails", {
       method: "POST",
       headers: { Authorization: `Bearer ${key}`, "Content-Type": "application/json" },
-      body: JSON.stringify({ from, to: [order.email], bcc: ["recyclace@gmail.com"], subject: `Recycl'ace — Confirmation de commande ${order.order_number}`, html }),
+      body: JSON.stringify({ from, to: [order.email], bcc: ["recyclace@gmail.com"], reply_to: process.env.RESEND_REPLY_TO || "recyclace@gmail.com", subject: `Recycl'ace — Confirmation de commande ${order.order_number}`, html }),
     });
   } catch (e) { console.error("[email] échec envoi", e); }
 }
