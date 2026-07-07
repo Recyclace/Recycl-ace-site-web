@@ -1,32 +1,13 @@
 "use client";
 import Image from "next/image";
 import Link from "next/link";
-import { useState } from "react";
 import { useCart } from "@/context/CartContext";
 import { useLang } from "@/context/LanguageContext";
 
 export default function CartDrawer() {
   const { items, isOpen, close, subtotal, remove, setQty, count } = useCart();
   const { t, lang } = useLang();
-  const [loading, setLoading] = useState(false);
 
-  const checkout = async () => {
-    setLoading(true);
-    try {
-      const res = await fetch("/api/checkout", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ items, lang }),
-      });
-      const data = await res.json();
-      if (data.url) window.location.href = data.url;
-      else alert(data.error || "Checkout indisponible (clés Stripe non configurées).");
-    } catch {
-      alert("Checkout indisponible pour le moment.");
-    } finally {
-      setLoading(false);
-    }
-  };
 
   return (
     <>
@@ -99,9 +80,7 @@ export default function CartDrawer() {
                 <span className="text-sm text-encre/60">{t.cart.subtotal}</span>
                 <span className="font-display text-xl text-encre" style={{ fontWeight: 800 }}>{subtotal.toFixed(2)} €</span>
               </div>
-              <button onClick={checkout} disabled={loading} className="btn-primary w-full disabled:opacity-60">
-                {loading ? "…" : t.cart.checkout}
-              </button>
+              <Link href="/checkout" onClick={close} className="btn-primary block w-full text-center">{t.cart.checkout}</Link>
               <button onClick={close} className="btn-ghost mt-2 w-full">{t.cart.continue}</button>
             </div>
           </>
