@@ -1,8 +1,8 @@
 import { NextResponse } from "next/server";
-import { adminDb, checkCode } from "@/lib/adminServer";
+import { adminDb, checkSession } from "@/lib/adminServer";
 
 export async function GET(req: Request) {
-  if (!(await checkCode(req.headers.get("x-admin-code")))) return NextResponse.json({ error: "unauthorized" }, { status: 401 });
+  if (!(await checkSession(req))) return NextResponse.json({ error: "unauthorized" }, { status: 401 });
   const db = adminDb();
   if (!db) return NextResponse.json({ error: "service_role_missing", orders: [] });
   const { data, error } = await db.from("orders").select("*").order("created_at", { ascending: false });
@@ -10,7 +10,7 @@ export async function GET(req: Request) {
 }
 
 export async function POST(req: Request) {
-  if (!(await checkCode(req.headers.get("x-admin-code")))) return NextResponse.json({ error: "unauthorized" }, { status: 401 });
+  if (!(await checkSession(req))) return NextResponse.json({ error: "unauthorized" }, { status: 401 });
   const db = adminDb();
   if (!db) return NextResponse.json({ error: "service_role_missing" }, { status: 400 });
   const b = await req.json();

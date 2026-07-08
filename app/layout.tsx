@@ -5,6 +5,7 @@ import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import CartDrawer from "@/components/CartDrawer";
 import CookieConsent from "@/components/CookieConsent";
+import Track from "@/components/Track";
 
 const base = process.env.NEXT_PUBLIC_SITE_URL || "https://www.recyclace.com";
 
@@ -64,6 +65,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           <Footer />
           <CartDrawer />
           <CookieConsent />
+          <Track />
         </Providers>
       </body>
     </html>

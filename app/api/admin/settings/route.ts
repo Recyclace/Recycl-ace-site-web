@@ -1,8 +1,8 @@
 import { NextResponse } from "next/server";
-import { adminDb, checkCode, hasService } from "@/lib/adminServer";
+import { adminDb, checkSession } from "@/lib/adminServer";
 
 export async function GET(req: Request) {
-  if (!(await checkCode(req.headers.get("x-admin-code")))) return NextResponse.json({ error: "unauthorized" }, { status: 401 });
+  if (!(await checkSession(req))) return NextResponse.json({ error: "unauthorized" }, { status: 401 });
   const db = adminDb();
   if (!db) return NextResponse.json({ error: "service_role_missing" }, { status: 200 });
   const pub = await db.from("public_config").select("*").eq("id", 1).maybeSingle();
@@ -11,7 +11,7 @@ export async function GET(req: Request) {
 }
 
 export async function POST(req: Request) {
-  if (!(await checkCode(req.headers.get("x-admin-code")))) return NextResponse.json({ error: "unauthorized" }, { status: 401 });
+  if (!(await checkSession(req))) return NextResponse.json({ error: "unauthorized" }, { status: 401 });
   const db = adminDb();
   if (!db) return NextResponse.json({ error: "service_role_missing" }, { status: 400 });
   const b = await req.json();

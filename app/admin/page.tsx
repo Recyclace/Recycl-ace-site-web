@@ -2,6 +2,8 @@
 import { useEffect, useState } from "react";
 import { useLang } from "@/context/LanguageContext";
 import { products as seed, tField } from "@/lib/products";
+import AdminStats from "@/components/AdminStats";
+import AdminFaq from "@/components/AdminFaq";
 
 type Override = { id: string; price?: number | null; image_url?: string; colors?: any[]; name_fr?: string; name_en?: string; description_fr?: string; description_en?: string; badge_fr?: string; badge_en?: string; discount?: number; active?: boolean; sort?: number };
 type Rev = { id: string; name: string; rating: number; text: string; approved: boolean };
@@ -10,7 +12,7 @@ type Promo = { id: string; code: string; kind: string; value: number; expires_at
 type Point = { id: string; kind: string; city: string; lat: number; lng: number };
 type Cust = { id?: string; slug?: string; name_fr: string; name_en: string; category_fr: string; category_en: string; description_fr: string; description_en: string; price: number | string; badge_fr: string; badge_en: string; image_url: string; colors?: any[]; active?: boolean };
 type Order = { id: string; order_number: string; created_at: string; first_name: string; last_name: string; email: string; phone: string; address: string; postal_code: string; city: string; country: string; items: any; total: number; status: string };
-type Tab = "products" | "orders" | "reviews" | "newsletter" | "shipping" | "promos" | "map" | "settings";
+type Tab = "products" | "orders" | "stats" | "reviews" | "newsletter" | "faq" | "shipping" | "promos" | "map" | "settings";
 
 const emptyCust: Cust = { name_fr: "", name_en: "", category_fr: "", category_en: "", description_fr: "", description_en: "", price: "", badge_fr: "", badge_en: "", image_url: "", colors: [] };
 const ORDER_STATUS = ["a_livrer", "en_cours", "livree", "remboursee", "abandon"];
@@ -49,7 +51,7 @@ export default function AdminPage() {
   const fetchOrders = async (c: string) => { try { const d = await (await fetch("/api/admin/orders", { headers: H(c) })).json(); setOrderNote(noteFrom(d)); setOrders(d.orders || []); } catch { setOrderNote("Erreur."); } };
 
   useEffect(() => { const sc = sessionStorage.getItem("ra_admin_code"); if (sessionStorage.getItem("ra_admin") === "1" && sc) { setUnlocked(true); setCode(sc); } }, []);
-  useEffect(() => { if (!unlocked) return; ({ products: fetchProducts, orders: fetchOrders, reviews: fetchReviews, newsletter: fetchSubs, shipping: fetchSettings, promos: fetchPromos, map: fetchPoints, settings: fetchSettings }[tab])(code); }, [tab, unlocked]);
+  useEffect(() => { if (!unlocked) return; const fn = ({ products: fetchProducts, orders: fetchOrders, reviews: fetchReviews, newsletter: fetchSubs, shipping: fetchSettings, promos: fetchPromos, map: fetchPoints, settings: fetchSettings } as Record<string, (c: string) => void>)[tab]; if (fn) fn(code); }, [tab, unlocked]);
 
   const tryUnlock = async () => { try { const d = await (await fetch("/api/admin/login", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ user, code }) })).json(); if (d.ok) { setUnlocked(true); sessionStorage.setItem("ra_admin", "1"); sessionStorage.setItem("ra_admin_code", code); fetchProducts(code); } else setError(true); } catch { setError(true); } };
 
@@ -110,13 +112,16 @@ export default function AdminPage() {
     </div></div>
   );
 
-  const tabs: [Tab, string][] = [["products", en ? "Products" : "Produits"], ["orders", en ? "Orders" : "Commandes"], ["reviews", en ? "Reviews" : "Avis"], ["newsletter", "Newsletter"], ["shipping", en ? "Shipping" : "Livraison"], ["promos", en ? "Promos" : "Codes promo"], ["map", en ? "Map" : "Carte"], ["settings", en ? "Settings" : "Paramètres"]];
+  const tabs: [Tab, string][] = [["products", en ? "Products" : "Produits"], ["orders", en ? "Orders" : "Commandes"], ["stats", en ? "Stats" : "Statistiques"], ["reviews", en ? "Reviews" : "Avis"], ["newsletter", "Newsletter"], ["faq", "FAQ"], ["shipping", en ? "Shipping" : "Livraison"], ["promos", en ? "Promos" : "Codes promo"], ["map", en ? "Map" : "Carte"], ["settings", en ? "Settings" : "Paramètres"]];
   const fileInput = (key: string, cb: (u: string) => void) => (<div><input type="file" accept="image/*" onChange={(e) => e.target.files?.[0] && uploadFile(e.target.files[0], cb, key)} className="text-xs" />{uploading === key && <span className="ml-2 text-xs text-encre/50">…</span>}</div>);
 
   return (
     <div className="container-x py-12">
       <div className="mb-6 flex flex-wrap items-center justify-between gap-3"><h1 className="h-display text-3xl text-encre">{t.admin.title}</h1><button onClick={() => { sessionStorage.removeItem("ra_admin"); sessionStorage.removeItem("ra_admin_code"); setUnlocked(false); }} className="btn-outline">{t.admin.logout}</button></div>
       <div className="mb-8 flex flex-wrap gap-1 rounded-2xl border border-foret/15 p-1">{tabs.map(([k, label]) => (<button key={k} onClick={() => setTab(k)} className={`rounded-full px-4 py-2 text-sm font-semibold ${tab === k ? "bg-foret text-white" : "text-foret"}`}>{label}</button>))}</div>
+
+      {tab === "stats" && <AdminStats />}
+      {tab === "faq" && <AdminFaq />}
 
       {tab === "products" && (<>
         {prodNote && <p className="mb-4 rounded-xl bg-terre/10 p-3 text-sm text-terre">{prodNote}</p>}

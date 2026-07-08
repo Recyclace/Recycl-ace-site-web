@@ -16,6 +16,7 @@ export default function Footer() {
     { href: "/contact", label: t.nav.contact },
   ];
   const legal = [
+    { href: "/faq", label: "FAQ" },
     { href: "/legal/mentions-legales", label: en ? "Legal notice" : "Mentions légales" },
     { href: "/legal/cgv", label: en ? "Terms of sale" : "CGV" },
     { href: "/legal/politique-de-confidentialite", label: en ? "Privacy policy" : "Politique de confidentialité" },
