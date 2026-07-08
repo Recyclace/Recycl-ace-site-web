@@ -35,6 +35,7 @@ export const metadata: Metadata = {
     images: ["/assets/produits/equipements-full.jpg"],
   },
   robots: { index: true, follow: true, googleBot: { index: true, follow: true, "max-image-preview": "large" } },
+  verification: { google: process.env.GOOGLE_SITE_VERIFICATION || "ZPcVSeYA4ONGH8tFdAM6knDJgMd80cR2VVfpb_QTS_8" },
 };
 
 export const viewport = { width: "device-width", initialScale: 1 };
