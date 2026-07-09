@@ -1,36 +1,30 @@
-# Recycl'ace — Site vitrine & e-commerce
+# CRM Recycl'ace
 
-Site Next.js 14 (App Router) + Tailwind CSS, avec panier, i18n FR/EN,
-espace admin, et intégrations Supabase + Stripe.
+## v4 — corrections et ajustements
 
-## Démarrer
-```bash
-npm install
-cp .env.example .env.local   # puis renseigner les clés
-npm run dev                  # http://localhost:3000
-```
+- **Bug B2B2C corrigé** : le chargement des données s'arrêtait trop tôt dans certains cas (pagination fragile). Il est maintenant basé sur le nombre réel de lignes en base, avec un message d'alerte si un chargement est incomplet.
+- **Colonnes réorganisées** : Nom, Statut, Assigné à, Dernière MAJ, Téléphone, Mail, Département, Région, Action, puis Lead chaud / Stand by / FFT Engagé à la fin, et un bouton "Fiche" pour ouvrir la fiche client complète (contact, ville, site web, groupe, historique...).
+- **Tri alphabétique** : les noms commençant par un chiffre passent à la fin.
+- **100 lignes par page** (au lieu de 40) pour voir plus de résultats d'un coup.
+- **Régions et départements nettoyés** : toutes les variantes d'écriture unifiées (ex. "Haut de France" / "Hauts-de-France" → une seule valeur), départements numériques remplacés par leur nom, région déduite du département quand elle manquait. Départements manquants complétés quand la ville permettait de le déduire (grandes villes reconnues) : 393 → 272 lignes restantes sans département (aucune info exploitable dans le fichier source pour celles-ci).
+- **Lead chaud / Stand by précochés** automatiquement pour les lignes dont l'ancien statut Excel était explicitement "Lead chaud" ou "Stand by".
+- **Nouvelle colonne "Assigné à"** (Pierre / Iouri / Aurélie), filtrable, éditable directement dans le tableau et dans la fiche client.
+- **Onglet Kanban** de retour, simplifié : Propale envoyée / Devis envoyé / Lead chaud / Stand by (une même fiche peut apparaître dans plusieurs colonnes).
+- **Onglet Relances en retard** : critère changé pour "Propale envoyée" (proposition commerciale) de plus de 14 jours sans mise à jour, avec filtres région / département / B2B ou B2B2C / recherche libre.
+- **Dashboard** : les prospects listés dans les pipes (leads chauds, devis envoyés, stand by) sont cliquables et ouvrent directement la fiche client.
 
-## Charte graphique
-Couleurs et typo (Poppins) définies dans `tailwind.config.ts` + `app/globals.css`
-(variables CSS miroir). Issues de la charte officielle Recycl'ace v1.0.
+### Reste à savoir
+- ~272 lignes sans département identifiable (pas de ville exploitable dans les données sources) — à compléter manuellement si besoin.
+- L'enrichissement Tenup (emails/téléphones manquants) est toujours en attente, sur demande.
 
-## Structure
-- `app/` — pages (Accueil, Nos équipements, Notre procédé, Notre histoire, Clubs, Contact, Admin)
-- `components/` — Header, Footer, CartDrawer, Hero, carte clubs (Leaflet), carousel, formulaires…
-- `context/` — `LanguageContext` (switch FR/EN instantané), `CartContext` (panier + badge)
-- `lib/` — `products.ts` (catalogue), `i18n/dictionary.ts`, `clubs.ts`, `supabaseClient.ts`
-- `supabase/schema.sql` — schéma de base de données
+## Redéployer
 
-## Backend
-- **Supabase** : exécuter `supabase/schema.sql`, puis renseigner `NEXT_PUBLIC_SUPABASE_URL` / `..._ANON_KEY`.
-  Sans clés, le site fonctionne en mode démo (catalogue local, formulaires simulés).
-- **Stripe** : renseigner `STRIPE_SECRET_KEY`. Le bouton « Continuer vers mon panier »
-  crée une session Stripe Checkout. Sans clé, message d'info.
-- **Admin** : `/admin`, code défini par `NEXT_PUBLIC_ADMIN_CODE` (défaut `recyclace2026`).
+1. `npm install`
+2. `npx vercel --prod` (depuis ce dossier)
 
-## Vidéo bannière
-Placer une version web optimisée (H.264, < 15 Mo) dans `public/assets/videos/hero.mp4`.
-En attendant, une photo (`court-play.jpg`) sert d'arrière-plan.
+## Comptes
 
-## Déploiement
-Compatible Vercel (recommandé). `npm run build` puis déployer.
+- recyclace@gmail.com
+- iouri.dadhemar@recyclace.com
+
+Mot de passe changeable dans Paramètres. Pour ajouter quelqu'un (@recyclace.com), donne l'email à Claude.
