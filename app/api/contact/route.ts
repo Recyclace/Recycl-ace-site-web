@@ -3,15 +3,35 @@ import { supabase } from "@/lib/supabaseClient";
 
 const LABELS: Record<string, string> = { name: "Nom", email: "E-mail", subject: "Sujet", message: "Message", club: "Club", contact: "Contact", phone: "Téléphone" };
 
+/** Détecte une chaîne aléatoire type "qiQZYHvtVAvUfTWH" (pas d'espace, très peu de voyelles). */
+function looksRandom(v: string) {
+  const t = (v || "").trim();
+  if (t.length < 10 || /\s/.test(t)) return false;
+  const vowels = (t.match(/[aeiouAEIOU]/g) || []).length;
+  return vowels / t.length < 0.22;
+}
+
 export async function POST(req: Request) {
   try {
-    const { table, fields, subject } = (await req.json()) as { table: string; fields: Record<string, string>; subject: string };
+    const { table, fields, subject, guard } = (await req.json()) as { table: string; fields: Record<string, string>; subject: string; guard?: { hp?: string; ts?: number } };
     if (!["contacts", "club_requests"].includes(table)) return NextResponse.json({ error: "bad_table" }, { status: 400 });
 
-    // 1) Enregistrement en base (toujours)
+    // --- Anti-robots (on renvoie un faux succès pour ne pas informer le bot) ---
+    if (guard?.hp && guard.hp.trim() !== "") return NextResponse.json({ ok: true, spam: true });
+    if (guard?.ts && Date.now() - Number(guard.ts) < 3000) return NextResponse.json({ ok: true, spam: true });
+
+    const email = (fields.email || "").trim();
+    const message = (fields.message || "").trim();
+    if (!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)) return NextResponse.json({ ok: false, error: "invalid_email" });
+    if (message.length < 10) return NextResponse.json({ ok: false, error: "too_short" });
+    if (looksRandom(message) || looksRandom(fields.name || "") || looksRandom(fields.club || "")) return NextResponse.json({ ok: true, spam: true });
+    const links = (message.match(/https?:\/\/|www\./gi) || []).length;
+    if (links >= 2) return NextResponse.json({ ok: true, spam: true });
+
+    // 1) Enregistrement en base
     const { error: dbErr } = await supabase.from(table).insert(fields);
 
-    // 2) E-mail de notification via Resend (vers recyclace@gmail.com)
+    // 2) E-mail via Resend
     const key = process.env.RESEND_API_KEY;
     if (key) {
       const from = process.env.RESEND_FROM || "Recycl'ace <onboarding@resend.dev>";

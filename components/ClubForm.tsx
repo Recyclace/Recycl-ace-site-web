@@ -8,6 +8,7 @@ export default function ClubForm() {
   const { t } = useLang();
   const [sent, setSent] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [ts] = useState(() => Date.now());
 
   const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -20,7 +21,7 @@ export default function ClubForm() {
       email: String(f.get("email") || ""),
       message: String(f.get("message") || ""),
     };
-    const res = await sendForm("club_requests", fields, `Nouvelle demande Club — ${fields.club}`);
+    const res = await sendForm("club_requests", fields, `Nouvelle demande Club — ${fields.club}`, { hp: String(f.get("website") || ""), ts });
     setLoading(false);
     if (res.ok) setSent(true);
   };
@@ -31,6 +32,8 @@ export default function ClubForm() {
   return (
     <form onSubmit={onSubmit} className="card space-y-4 p-6 md:p-8">
       <h3 className="h-display text-xl text-encre">{t.clubs.formTitle}</h3>
+      {/* piège anti-robot */}
+      <input type="text" name="website" tabIndex={-1} autoComplete="off" aria-hidden="true" className="absolute left-[-9999px] h-0 w-0 opacity-0" />
       <Input label={`${t.clubs.fClub} *`} name="club" required />
       <Input label={t.clubs.fContact} name="contact" />
       <div className="grid gap-4 sm:grid-cols-2">

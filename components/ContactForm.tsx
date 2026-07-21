@@ -8,6 +8,7 @@ export default function ContactForm() {
   const { t } = useLang();
   const [sent, setSent] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [ts] = useState(() => Date.now());
 
   const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -19,7 +20,7 @@ export default function ContactForm() {
       subject: String(f.get("subject") || ""),
       message: String(f.get("message") || ""),
     };
-    const res = await sendForm("contacts", fields, `Contact site — ${fields.subject || fields.name}`);
+    const res = await sendForm("contacts", fields, `Contact site — ${fields.subject || fields.name}`, { hp: String(f.get("website") || ""), ts });
     setLoading(false);
     if (res.ok) setSent(true);
   };
@@ -29,6 +30,8 @@ export default function ContactForm() {
 
   return (
     <form onSubmit={onSubmit} className="card space-y-4 p-6 md:p-8">
+      {/* piège anti-robot : invisible pour les humains */}
+      <input type="text" name="website" tabIndex={-1} autoComplete="off" aria-hidden="true" className="absolute left-[-9999px] h-0 w-0 opacity-0" />
       <Input label={t.contact.fName} name="name" required />
       <Input label={t.contact.fEmail} name="email" type="email" required />
       <Input label={t.contact.fSubject} name="subject" required />
