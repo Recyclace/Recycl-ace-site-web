@@ -24,7 +24,7 @@ export default function ShopPage() {
   return (
     <>
       <div className="container-x py-12 md:py-16">
-        <header className="mb-10 max-w-2xl">
+        <header className="mb-10 max-w-4xl">
           <h1 className="h-display text-4xl text-encre md:text-5xl">{t.shop.title}</h1>
           <p className="mt-4 text-encre/60">
             {en
@@ -71,7 +71,8 @@ export default function ShopPage() {
             )}
             {pack && (
               <CatalogCard href="/nos-equipements/ace-pack" image="/assets/produits/pack-terre-main.jpg" title="Pack Ace"
-                subtitle={en ? "Bottle + dampener" : "Gourde + anti-vibrateur"} price={euro(pack.price)} />
+                subtitle={en ? "Bottle + dampener" : "Gourde + anti-vibrateur"} price={euro(pack.price)}
+                badge={{ label: en ? "Best seller" : "Best seller", bg: "#A8D05D", text: "#13302A" }} />
             )}
           </CatalogRow>
         )}
@@ -87,7 +88,7 @@ export default function ShopPage() {
               <span className="eyebrow">{en ? "Make it yours" : "Personnalisez"}</span>
               <h2 className="h-display mt-2 text-3xl text-encre md:text-4xl">{en ? "Build your duo" : "Composez votre duo"}</h2>
               <p className="mt-3 max-w-md text-encre/70">
-                {en ? "The perfect gift for your favourite duo! Pick your favourite colours." : "Le cadeau idéal pour votre duo préféré ! Choisissez vos couleurs préférées."}
+                {en ? "The perfect gift for your dream duo! Pick your favourite colours." : "Le cadeau idéal pour votre duo de choc ! Choisissez vos couleurs préférées."}
               </p>
               <div className="mt-4 flex items-center gap-2">
                 {duo.colors.map((c) => <span key={c.key} className="h-6 w-6 rounded-full border-2 border-white shadow-sm" style={{ background: c.hex }} />)}

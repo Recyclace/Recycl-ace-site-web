@@ -43,7 +43,7 @@ export default function Header() {
           <Image src="/assets/logos/logo-recyclace.png" alt="Recycl'ace" width={210} height={36} priority className="h-7 w-auto sm:h-9" />
         </Link>
 
-        <nav className="hidden items-center gap-7 lg:flex">
+        <nav className="hidden items-center gap-7 lg:ml-auto lg:mr-3 lg:flex">
           <Link href="/" className={`relative pb-1 text-sm font-semibold transition-colors ${isActive("/") ? "text-foret" : "text-encre/70 hover:text-foret"}`}>
             {t.nav.home}
             {isActive("/") && <span className="absolute -bottom-0.5 left-0 h-[2px] w-full rounded-full bg-lime" />}

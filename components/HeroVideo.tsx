@@ -21,22 +21,17 @@ export default function HeroVideo() {
       <div className="absolute inset-0 bg-gradient-to-t from-encre via-encre/55 to-encre/20" />
 
       <div className="container-x relative flex h-full flex-col justify-end pb-16 md:justify-center md:pb-0">
-        <div className="max-w-3xl animate-fadeUp">
+        <div className="max-w-6xl animate-fadeUp">
           <span className="eyebrow text-lime">
             {lang === "en" ? "Let's bring circularity to sport" : "Instaurons une circularité dans le sport"}
           </span>
-          <h1 className="h-display mt-4 text-4xl text-sable sm:text-5xl md:text-6xl">
+          <h1 className="h-display mt-4 text-[1.7rem] text-sable sm:text-4xl lg:text-[2.6rem] xl:text-5xl">
             {lang === "en" ? (
               <>Instead of throwing them away,<br />what if we gave balls a second life?</>
             ) : (
               <>Et si au lieu de les jeter,<br />on donnait une seconde vie aux balles ?</>
             )}
           </h1>
-          <p className="mt-6 max-w-xl text-lg text-sable/80">
-            {lang === "en"
-              ? "Premium, durable and high-performance sports gear — made in France from recycled tennis balls."
-              : "Des équipements de sport premium, durables et performants — fabriqués en France à partir de balles de tennis recyclées."}
-          </p>
           <div className="mt-8 flex flex-wrap gap-3">
             <Link href="/nos-equipements" className="btn-accent">
               {lang === "en" ? "Explore our gear" : "Découvrir nos équipements"}
