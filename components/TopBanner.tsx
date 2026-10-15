@@ -1,4 +1,5 @@
 "use client";
+import { useEffect, useState } from "react";
 import { useLang } from "@/context/LanguageContext";
 import { FREE_SHIPPING_THRESHOLD } from "@/lib/shipping";
 
@@ -20,23 +21,21 @@ export default function TopBanner() {
     { icon: <IconTruck />, fr: "Livraison partout en France", en: "Delivery across France" },
     { icon: <IconGift />, fr: `Livraison offerte dès ${FREE_SHIPPING_THRESHOLD} €`, en: `Free shipping from ${FREE_SHIPPING_THRESHOLD} €` },
   ];
+  const [i, setI] = useState(0);
+
+  // Un seul message à la fois, qui tourne toutes les 6 secondes
+  useEffect(() => {
+    const t = setInterval(() => setI((v) => (v + 1) % items.length), 6000);
+    return () => clearInterval(t);
+  }, [items.length]);
+
+  const it = items[i];
   return (
     <div className="w-full bg-foret text-sable">
-      {/* Desktop : 3 messages */}
-      <div className="container-x hidden h-9 items-center justify-center gap-10 text-xs font-medium sm:flex">
-        {items.map((it, i) => (
-          <span key={i} className="inline-flex items-center gap-2 text-sable/90">
-            <span className="text-lime">{it.icon}</span>{en ? it.en : it.fr}
-          </span>
-        ))}
-      </div>
-      {/* Mobile : défilement */}
-      <div className="group relative flex h-8 items-center overflow-hidden sm:hidden">
-        <div className="flex shrink-0 animate-marquee items-center gap-8 whitespace-nowrap px-4 text-[11px] font-medium">
-          {[...items, ...items, ...items].map((it, i) => (
-            <span key={i} className="inline-flex items-center gap-1.5 text-sable/90"><span className="text-lime">{it.icon}</span>{en ? it.en : it.fr}</span>
-          ))}
-        </div>
+      <div className="container-x flex h-9 items-center justify-center overflow-hidden text-xs font-medium">
+        <span key={i} className="inline-flex animate-fadeUp items-center gap-2 text-sable/90">
+          <span className="text-lime">{it.icon}</span>{en ? it.en : it.fr}
+        </span>
       </div>
     </div>
   );

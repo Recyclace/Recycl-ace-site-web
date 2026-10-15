@@ -105,10 +105,16 @@ export default function CartDrawer() {
               </div>
               <Link href="/checkout" onClick={close} className="btn-primary block w-full text-center">{t.cart.checkout}</Link>
               <button onClick={close} className="btn-ghost mt-2 w-full">{t.cart.continue}</button>
-              <p className="mt-3 flex items-center justify-center gap-1.5 text-center text-[11px] text-encre/45">
-                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden><rect x="4" y="11" width="16" height="10" rx="2" /><path d="M8 11V7a4 4 0 0 1 8 0v4" /></svg>
-                {en ? "Secure payment · card via Stripe" : "Paiement sécurisé · carte via Stripe"}
-              </p>
+              <div className="mt-3 flex items-center justify-center gap-4 text-[11px] text-encre/45">
+                <span className="inline-flex items-center gap-1.5">
+                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden><rect x="4" y="11" width="16" height="10" rx="2" /><path d="M8 11V7a4 4 0 0 1 8 0v4" /></svg>
+                  {en ? "Secure payment" : "Paiement sécurisé"}
+                </span>
+                <span className="inline-flex items-center gap-1.5">
+                  <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden><path d="M1 4h13v11H1z" /><path d="M14 8h4l3 3v4h-7" /><circle cx="6" cy="18" r="2" /><circle cx="17.5" cy="18" r="2" /></svg>
+                  {en ? "Delivery across France" : "Livraison partout en France"}
+                </span>
+              </div>
             </div>
           </>
         )}

@@ -11,14 +11,14 @@ export default function BallAnatomy() {
     felt: {
       label: en ? "FELT" : "FEUTRINE",
       desc: en
-        ? "The felt is the textile cover over the rubber core of the tennis ball. It improves control, grip and aerodynamics, while influencing its speed, spin and durability."
-        : "La feutrine est l'enveloppe textile qui recouvre le noyau en caoutchouc de la balle de tennis. Elle améliore le contrôle, l'adhérence et l'aérodynamisme de la balle, tout en influençant sa vitesse, ses effets et sa durabilité.",
+        ? "The felt is the textile cover over the rubber core. It improves control, grip and aerodynamics, and influences speed, spin and durability."
+        : "La feutrine est l'enveloppe textile qui recouvre le noyau en caoutchouc. Elle améliore le contrôle, l'adhérence et l'aérodynamisme, et influence la vitesse, les effets et la durabilité.",
     },
     core: {
       label: en ? "RUBBER CORE" : "NOYAU EN CAOUTCHOUC",
       desc: en
-        ? "The rubber core is the heart of the tennis ball, beneath the felt. It is responsible for the bounce, elasticity and energy return on impact, ensuring performance and playing feel."
-        : "Le noyau en caoutchouc est le cœur de la balle de tennis, situé sous la feutrine. Il est responsable du rebond, de l'élasticité et de la restitution d'énergie lors de l'impact, ce qui garantit les performances et les sensations de jeu.",
+        ? "The rubber core is the heart of the ball. It drives the bounce, elasticity and energy return on impact — and it's exactly what we recycle."
+        : "Le noyau en caoutchouc est le cœur de la balle. Il assure le rebond, l'élasticité et la restitution d'énergie à l'impact — et c'est précisément ce que l'on recycle.",
     },
   };
 
@@ -29,51 +29,65 @@ export default function BallAnatomy() {
     style: { cursor: "pointer" as const },
   });
 
+  const on = (k: "felt" | "core") => active === k;
+
   return (
     <div className="relative select-none">
-      <svg viewBox="0 0 860 440" className="h-auto w-full">
+      <svg viewBox="0 0 720 440" className="h-auto w-full" role="img" aria-label={en ? "Tennis ball anatomy" : "Anatomie d'une balle de tennis"}>
         <defs>
-          <radialGradient id="felt" cx="36%" cy="30%" r="82%">
-            <stop offset="0%" stopColor="#D3EE7A" /><stop offset="70%" stopColor="#A8D05D" /><stop offset="100%" stopColor="#8FBF3E" />
+          <radialGradient id="ba-felt" cx="38%" cy="32%" r="80%">
+            <stop offset="0%" stopColor="#CDEA73" /><stop offset="68%" stopColor="#A8D05D" /><stop offset="100%" stopColor="#86B23C" />
           </radialGradient>
-          <radialGradient id="core" cx="40%" cy="36%" r="72%">
-            <stop offset="0%" stopColor="#5a5a52" /><stop offset="55%" stopColor="#26261F" /><stop offset="100%" stopColor="#0d0d0a" />
+          <radialGradient id="ba-core" cx="42%" cy="38%" r="70%">
+            <stop offset="0%" stopColor="#6a6a60" /><stop offset="55%" stopColor="#30302a" /><stop offset="100%" stopColor="#141410" />
           </radialGradient>
+          <clipPath id="ba-ballclip"><circle cx="300" cy="220" r="160" /></clipPath>
         </defs>
 
-        {/* Balle */}
-        <circle cx="340" cy="220" r="165" fill="url(#felt)" />
-        {/* Coutures : courbure inversée, comme une vraie balle de tennis (taille de guêpe) */}
-        <path d="M182 178 Q340 66 498 178" fill="none" stroke="#FBF8F0" strokeWidth="6" strokeLinecap="round" />
-        <path d="M182 262 Q340 374 498 262" fill="none" stroke="#FBF8F0" strokeWidth="6" strokeLinecap="round" />
-        {/* Ouverture : noyau caoutchouc */}
-        <ellipse cx="388" cy="216" rx="112" ry="132" fill="#7BAF33" />
-        <ellipse cx="396" cy="216" rx="92" ry="112" fill="url(#core)" />
-        <ellipse cx="370" cy="188" rx="28" ry="38" fill="#7a7a70" opacity="0.35" />
-        <circle cx="340" cy="220" r="165" fill="none" stroke="#0F6B5B" strokeWidth="2" opacity="0.3" />
+        {/* Ombre douce */}
+        <ellipse cx="300" cy="402" rx="140" ry="18" fill="#000" opacity="0.12" />
 
-        {/* Repère FEUTRINE */}
-        <g {...zone("felt")}>
-          <path d="M222 130 L120 104" fill="none" stroke="#E9F5CE" strokeWidth="2.5" />
-          <circle cx="256" cy="130" r="34" fill="#ffffff" fillOpacity={active === "felt" ? 0.18 : 0.001} stroke="#E9F5CE" strokeWidth="2.5" />
-          <text x="112" y="100" textAnchor="end" fontSize="24" fontWeight="800" fill="#E9F5CE">{txt.felt.label}</text>
+        {/* Balle */}
+        <circle cx="300" cy="220" r="160" fill="url(#ba-felt)" />
+
+        {/* Découpe : quartier retiré révélant le noyau (en haut à droite) */}
+        <g clipPath="url(#ba-ballclip)">
+          <path d="M300 220 L300 60 A160 160 0 0 1 452 168 Z" fill="#7FAE39" />
+          <path d="M300 220 L300 86 A134 134 0 0 1 430 176 Z" fill="url(#ba-core)" />
+          <path d="M300 220 L300 60 A160 160 0 0 1 452 168" fill="none" stroke="#5E8A2A" strokeWidth="2" />
         </g>
-        {/* Repère NOYAU CAOUTCHOUC */}
+
+        {/* Coutures incurvées (taille de guêpe) */}
+        <path d="M152 178 Q300 70 448 178" fill="none" stroke="#FBF8F0" strokeWidth="5" strokeLinecap="round" opacity="0.95" />
+        <path d="M152 262 Q300 370 448 262" fill="none" stroke="#FBF8F0" strokeWidth="5" strokeLinecap="round" opacity="0.95" />
+        <circle cx="300" cy="220" r="160" fill="none" stroke="#5E8A2A" strokeWidth="1.5" opacity="0.5" />
+
+        {/* Repère FEUTRINE (bas-gauche de la balle) */}
+        <g {...zone("felt")}>
+          <circle cx="212" cy="300" r="30" fill="#ffffff" fillOpacity={on("felt") ? 0.2 : 0.001} stroke="#E9F5CE" strokeWidth="2" />
+          <line x1="190" y1="322" x2="120" y2="372" stroke="#E9F5CE" strokeWidth="2" />
+          <circle cx="120" cy="372" r="3" fill="#E9F5CE" />
+          <text x="112" y="392" textAnchor="start" fontSize="22" fontWeight="800" fill="#E9F5CE">{txt.felt.label}</text>
+        </g>
+
+        {/* Repère NOYAU (dans la découpe) */}
         <g {...zone("core")}>
-          <path d="M506 216 L612 190" fill="none" stroke="#E9F5CE" strokeWidth="2.5" />
-          <circle cx="470" cy="216" r="36" fill="#ffffff" fillOpacity={active === "core" ? 0.18 : 0.001} stroke="#E9F5CE" strokeWidth="2.5" />
-          <text x="620" y="184" fontSize="24" fontWeight="800" fill="#E9F5CE">{en ? "RUBBER" : "NOYAU EN"}</text>
-          <text x="620" y="212" fontSize="24" fontWeight="800" fill="#E9F5CE">{en ? "CORE" : "CAOUTCHOUC"}</text>
+          <circle cx="360" cy="150" r="24" fill="#ffffff" fillOpacity={on("core") ? 0.18 : 0.001} stroke="#E9F5CE" strokeWidth="2" />
+          <line x1="382" y1="138" x2="540" y2="110" stroke="#E9F5CE" strokeWidth="2" />
+          <circle cx="540" cy="110" r="3" fill="#E9F5CE" />
+          <text x="552" y="104" fontSize="22" fontWeight="800" fill="#E9F5CE">{en ? "RUBBER" : "NOYAU"}</text>
+          <text x="552" y="130" fontSize="22" fontWeight="800" fill="#E9F5CE">{en ? "CORE" : "CAOUTCHOUC"}</text>
+          <text x="552" y="158" fontSize="12" fontWeight="600" fill="#A8D05D">{en ? "↳ what we recycle" : "↳ ce qu'on recycle"}</text>
         </g>
       </svg>
 
-      {/* Pop-up descriptif (survol / clic) */}
       {active && (
-        <div className={`pointer-events-none absolute z-10 max-w-xs rounded-xl2 bg-sable/95 p-4 text-sm leading-relaxed text-encre shadow-soft backdrop-blur ${active === "felt" ? "left-2 top-2 md:left-8" : "bottom-2 right-2 md:right-8"}`}>
+        <div className={`pointer-events-none absolute z-10 max-w-xs rounded-xl2 bg-sable/95 p-4 text-sm leading-relaxed text-encre shadow-soft backdrop-blur ${active === "felt" ? "bottom-2 left-2" : "right-2 top-2"}`}>
           <p className="mb-1 font-bold text-foret">{txt[active].label}</p>
           <p className="text-encre/75">{txt[active].desc}</p>
         </div>
       )}
+      <p className="mt-2 text-center text-xs text-sable/60">{en ? "Hover / tap the circles" : "Survolez / touchez les cercles"}</p>
     </div>
   );
 }

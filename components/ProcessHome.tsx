@@ -40,20 +40,15 @@ export default function ProcessHome() {
             </p>
           </div>
 
-          <div className="rounded-[1.75rem] bg-encre/40 p-5 ring-1 ring-sable/10 md:p-7">
-            <p className="mb-1 text-xs font-semibold uppercase tracking-[.18em] text-lime">{en ? "The raw material" : "La matière première"}</p>
-            <p className="mb-4 text-sm text-sable/75">
-              {en ? "A ball = nylon felt + a rubber core. It's precisely this core that we recycle." : "Une balle = feutrine en nylon + noyau en caoutchouc. C'est précisément ce noyau que l'on recycle."}
-            </p>
+          <div className="md:pl-4">
             <BallAnatomy />
           </div>
         </div>
 
         {/* Bas : les 4 étapes + seconde vie, dans le même ensemble */}
         <div className="mt-14 border-t border-sable/15 pt-10">
-          <div className="mb-8 flex flex-wrap items-end justify-between gap-3">
+          <div className="mb-8">
             <h3 className="h-display text-2xl md:text-3xl">{en ? "A second life for every ball" : "Une seconde vie pour chaque balle"}</h3>
-            <p className="max-w-sm text-sm text-sable/70">{en ? "From the court back to the court — a complete circular loop." : "Du court au court — une boucle circulaire complète."}</p>
           </div>
           <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-4">
             {steps.map((s) => (

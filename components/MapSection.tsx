@@ -1,11 +1,6 @@
 "use client";
-import dynamic from "next/dynamic";
 import { useLang } from "@/context/LanguageContext";
-
-const PartnersMap = dynamic(() => import("./PartnersMap"), {
-  ssr: false,
-  loading: () => <div className="grid h-full w-full place-items-center text-encre/40">…</div>,
-});
+import FranceMap from "./FranceMap";
 
 export default function MapSection() {
   const { t, lang } = useLang();
@@ -19,7 +14,7 @@ export default function MapSection() {
       </div>
       <div className="grid gap-6 lg:grid-cols-[1.6fr_1fr]">
         <div className="relative h-[460px] overflow-hidden rounded-xl2 shadow-card">
-          <PartnersMap />
+          <FranceMap />
           {/* Légende */}
           <div className="absolute bottom-3 left-3 z-[500] flex flex-col gap-1 rounded-xl bg-white/90 px-3 py-2 text-xs font-medium text-encre shadow-card backdrop-blur">
             <span className="flex items-center gap-2"><span className="inline-block h-3 w-3 rounded-full bg-lime ring-1 ring-emeraude" />{en ? "Partner clubs" : "Clubs partenaires"}</span>

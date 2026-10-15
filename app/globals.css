@@ -18,6 +18,8 @@
 }
 
 html { scroll-behavior: smooth; }
+/* Vision globale légèrement dézoomée sur desktop (proportions conservées) */
+@media (min-width: 768px) { html { font-size: 92.5%; } }
 
 body {
   background: var(--sable);

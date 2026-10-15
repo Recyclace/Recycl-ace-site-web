@@ -1,7 +1,7 @@
 "use client";
 import Image from "next/image";
 import Link from "next/link";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Product, tField } from "@/lib/products";
 import { useLang } from "@/context/LanguageContext";
 import { useCart } from "@/context/CartContext";
@@ -57,6 +57,14 @@ export default function ProductDetail({ product }: { product: Product }) {
   const color = ov.colors[colorIdx] || product.colors[colorIdx];
   const color2 = ov.colors[colorIdx2] || ov.colors[0] || product.colors[0];
   const selectColor = (i: number) => { setColorIdx(i); setImgIdx(0); };
+
+  // Préselection du coloris via ?c=<key> (depuis le catalogue)
+  useEffect(() => {
+    try {
+      const key = new URLSearchParams(window.location.search).get("c");
+      if (key) { const i = product.colors.findIndex((c) => c.key === key); if (i >= 0) { setColorIdx(i); setImgIdx(0); } }
+    } catch {}
+  }, [product.id]);
 
   const handleAdd = () => {
     const colorLabel = product.dualColor

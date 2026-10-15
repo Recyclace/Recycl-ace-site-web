@@ -60,9 +60,10 @@ export const products: Product[] = [
         "hex": "#0D1B3D",
         "images": [
           "/assets/produits/gourde-bleu-front.jpg",
-          "/assets/produits/gourde-bleu-box.jpg",
-          "/assets/produits/gourde-bleu-2.jpg",
-          "/assets/produits/gourde-bleu-3.jpg"
+          "/assets/produits/gourde-bleu-back.jpg",
+          "/assets/produits/gourde-bleu-sp1.jpg",
+          "/assets/produits/gourde-bleu-sp2.jpg",
+          "/assets/produits/gourde-bleu-pack.jpg"
         ]
       },
       {
@@ -74,25 +75,27 @@ export const products: Product[] = [
         "hex": "#19A7A0",
         "images": [
           "/assets/produits/gourde-turquoise-front.jpg",
-          "/assets/produits/gourde-turquoise-box.jpg",
-          "/assets/produits/gourde-turquoise-2.jpg",
-          "/assets/produits/gourde-turquoise-3.jpg"
+          "/assets/produits/gourde-turquoise-back.jpg",
+          "/assets/produits/gourde-turquoise-sp1.jpg",
+          "/assets/produits/gourde-turquoise-sp2.jpg",
+          "/assets/produits/gourde-turquoise-pack.jpg"
         ]
       },
       {
         "key": "terre",
         "name": {
-          "fr": "Ocre Terre Battue",
-          "en": "Clay Ochre"
+          "fr": "Terre Battue",
+          "en": "Clay"
         },
         "hex": "#B5603A",
         "badge": { "fr": "Best seller", "en": "Best seller" },
         "badgeStyle": { "bg": "#A8D05D", "text": "#13302A" },
         "images": [
           "/assets/produits/gourde-terre-front.jpg",
-          "/assets/produits/gourde-terre-box.jpg",
-          "/assets/produits/gourde-terre-2.jpg",
-          "/assets/produits/gourde-terre-3.jpg"
+          "/assets/produits/gourde-terre-back.jpg",
+          "/assets/produits/gourde-terre-sp1.jpg",
+          "/assets/produits/gourde-terre-sp2.jpg",
+          "/assets/produits/gourde-terre-pack.jpg"
         ]
       },
       {
@@ -102,13 +105,12 @@ export const products: Product[] = [
           "en": "Lavender"
         },
         "hex": "#B9A6D6",
-        "badge": { "fr": "Édition limitée", "en": "Limited edition" },
+        "badge": { "fr": "Exclusivité", "en": "Exclusive" },
         "badgeStyle": { "bg": "#B49AD6", "text": "#2E2147" },
         "images": [
           "/assets/produits/gourde-lavande-front.jpg",
-          "/assets/produits/gourde-lavande-box.jpg",
-          "/assets/produits/gourde-lavande-1.jpg",
-          "/assets/produits/gourde-lavande-2.jpg"
+          "/assets/produits/gourde-lavande-back.jpg",
+          "/assets/produits/gourde-lavande-pack.jpg"
         ]
       }
     ],
@@ -186,11 +188,12 @@ export const products: Product[] = [
         },
         "hex": "#0D1B3D",
         "images": [
-          "/assets/produits/vibe-bleu-1.jpg",
-          "/assets/produits/vibe-bleu-2.jpg",
-          "/assets/produits/vibe-bleu-3.jpg",
-          "/assets/produits/vibe-bleu-4.jpg",
-          "/assets/produits/vibe-bleu-5.jpg"
+          "/assets/produits/vibe-bleu-pack.jpg",
+          "/assets/produits/vibe-bleu-sp1.jpg",
+          "/assets/produits/vibe-bleu-sp2.jpg",
+          "/assets/produits/vibe-bleu-sp3.jpg",
+          "/assets/produits/vibe-bleu-packseul.jpg",
+          "/assets/produits/vibe-bleu-solo.jpg"
         ]
       },
       {
@@ -201,11 +204,12 @@ export const products: Product[] = [
         },
         "hex": "#19A7A0",
         "images": [
-          "/assets/produits/vibe-turquoise-1.jpg",
-          "/assets/produits/vibe-turquoise-2.jpg",
-          "/assets/produits/vibe-turquoise-3.jpg",
-          "/assets/produits/vibe-turquoise-4.jpg",
-          "/assets/produits/vibe-turquoise-5.jpg"
+          "/assets/produits/vibe-turquoise-pack.jpg",
+          "/assets/produits/vibe-turquoise-sp1.jpg",
+          "/assets/produits/vibe-turquoise-sp2.jpg",
+          "/assets/produits/vibe-turquoise-sp3.jpg",
+          "/assets/produits/vibe-turquoise-packseul.jpg",
+          "/assets/produits/vibe-turquoise-solo.jpg"
         ]
       },
       {
@@ -216,11 +220,12 @@ export const products: Product[] = [
         },
         "hex": "#B5603A",
         "images": [
-          "/assets/produits/vibe-terre-1.jpg",
-          "/assets/produits/vibe-terre-2.jpg",
-          "/assets/produits/vibe-terre-3.jpg",
-          "/assets/produits/vibe-terre-4.jpg",
-          "/assets/produits/vibe-terre-5.jpg"
+          "/assets/produits/vibe-terre-pack.jpg",
+          "/assets/produits/vibe-terre-sp1.jpg",
+          "/assets/produits/vibe-terre-sp2.jpg",
+          "/assets/produits/vibe-terre-sp3.jpg",
+          "/assets/produits/vibe-terre-packseul.jpg",
+          "/assets/produits/vibe-terre-solo.jpg"
         ]
       },
       {
@@ -231,11 +236,12 @@ export const products: Product[] = [
         },
         "hex": "#B9A6D6",
         "images": [
-          "/assets/produits/vibe-lavande-1.jpg",
-          "/assets/produits/vibe-lavande-2.jpg",
-          "/assets/produits/vibe-lavande-3.jpg",
-          "/assets/produits/vibe-lavande-4.jpg",
-          "/assets/produits/vibe-lavande-5.jpg"
+          "/assets/produits/vibe-lavande-pack.jpg",
+          "/assets/produits/vibe-lavande-sp1.jpg",
+          "/assets/produits/vibe-lavande-sp2.jpg",
+          "/assets/produits/vibe-lavande-sp3.jpg",
+          "/assets/produits/vibe-lavande-packseul.jpg",
+          "/assets/produits/vibe-lavande-solo.jpg"
         ]
       }
     ],
@@ -310,9 +316,8 @@ export const products: Product[] = [
         },
         "hex": "#0D1B3D",
         "images": [
-          "/assets/produits/pack-bleu-set.jpg",
-          "/assets/produits/pack-bleu-1.jpg",
-          "/assets/produits/pack-bleu-2.jpg"
+          "/assets/produits/pack-bleu-main.jpg",
+          "/assets/produits/pack-bleu-1.jpg"
         ]
       },
       {
@@ -323,22 +328,20 @@ export const products: Product[] = [
         },
         "hex": "#19A7A0",
         "images": [
-          "/assets/produits/pack-turquoise-set.jpg",
-          "/assets/produits/pack-turquoise-1.jpg",
-          "/assets/produits/pack-turquoise-2.jpg"
+          "/assets/produits/pack-turquoise-main.jpg",
+          "/assets/produits/pack-turquoise-1.jpg"
         ]
       },
       {
         "key": "terre",
         "name": {
-          "fr": "Ocre Terre Battue",
-          "en": "Clay Ochre"
+          "fr": "Terre Battue",
+          "en": "Clay"
         },
         "hex": "#B5603A",
         "images": [
-          "/assets/produits/pack-terre-set.jpg",
-          "/assets/produits/pack-terre-1.jpg",
-          "/assets/produits/pack-terre-2.jpg"
+          "/assets/produits/pack-terre-main.jpg",
+          "/assets/produits/pack-terre-1.jpg"
         ]
       },
       {
@@ -349,9 +352,8 @@ export const products: Product[] = [
         },
         "hex": "#B9A6D6",
         "images": [
-          "/assets/produits/pack-lavande-set.jpg",
-          "/assets/produits/pack-lavande-1.jpg",
-          "/assets/produits/pack-lavande-2.jpg"
+          "/assets/produits/pack-lavande-main.jpg",
+          "/assets/produits/pack-lavande-1.jpg"
         ]
       }
     ],
@@ -507,8 +509,9 @@ export const products: Product[] = [
         },
         "hex": "#A8D05D",
         "images": [
-          "/assets/produits/boite50-1.jpg",
-          "/assets/produits/boite50-2.jpg"
+          "/assets/produits/lot-1.jpg",
+          "/assets/produits/lot-special.jpg",
+          "/assets/produits/lot-2.jpg"
         ]
       }
     ],
