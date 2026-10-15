@@ -10,7 +10,7 @@ export default function Footer() {
   const year = new Date().getFullYear();
   const nav = [
     { href: "/nos-equipements", label: t.nav.shop },
-    { href: "/notre-procede", label: t.nav.process },
+    { href: "/#notre-procede", label: t.nav.process },
     { href: "/notre-histoire", label: t.nav.story },
     { href: "/clubs", label: t.nav.clubs },
     { href: "/contact", label: t.nav.contact },

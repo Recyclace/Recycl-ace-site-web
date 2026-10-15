@@ -6,6 +6,7 @@ import { tField } from "@/lib/products";
 import { useLang } from "@/context/LanguageContext";
 import { useCart } from "@/context/CartContext";
 import { useState } from "react";
+import RelatedProducts from "@/components/RelatedProducts";
 
 export default function CustomProductDetail({ slug }: { slug: string }) {
   const { t, lang } = useLang();
@@ -24,7 +25,7 @@ export default function CustomProductDetail({ slug }: { slug: string }) {
     <div className="container-x py-10 md:py-16">
       <Link href="/nos-equipements" className="link-underline mb-8 inline-flex items-center gap-1 text-sm font-semibold text-foret">← {t.shop.back}</Link>
       <div className="grid gap-10 lg:grid-cols-2">
-        <div className="relative aspect-square overflow-hidden rounded-xl2 bg-white shadow-card">
+        <div className="relative aspect-square overflow-hidden rounded-xl2 bg-sable shadow-card">
           <Image src={c.images[0]} alt={tField(product.name, lang)} fill sizes="(max-width:1024px) 100vw, 50vw" className="object-contain p-6" priority />
         </div>
         <div className="lg:pt-4">
@@ -40,8 +41,14 @@ export default function CustomProductDetail({ slug }: { slug: string }) {
             </div>
           )}
           <button onClick={handleAdd} className="btn-primary mt-8">{added ? `✓ ${t.shop.added}` : t.shop.addToCart}</button>
+          <div className="mt-8 rounded-2xl border border-foret/10 bg-foret/[0.04] p-5">
+            <p className="text-sm font-semibold text-encre">{lang === "en" ? "Are you a club?" : "Vous êtes un club ?"}</p>
+            <p className="mt-1 text-sm text-encre/60">{lang === "en" ? "Dedicated pricing and volume offers for your members." : "Grille de prix dédiée et offres volume pour vos adhérents."}</p>
+            <Link href="/clubs" className="btn-outline mt-3 inline-flex">{lang === "en" ? "Discover the club offer" : "Découvrir l'offre clubs"}</Link>
+          </div>
         </div>
       </div>
+      <RelatedProducts currentId={product.id} />
     </div>
   );
 }

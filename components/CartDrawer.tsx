@@ -3,10 +3,15 @@ import Image from "next/image";
 import Link from "next/link";
 import { useCart } from "@/context/CartContext";
 import { useLang } from "@/context/LanguageContext";
+import { FREE_SHIPPING_THRESHOLD, remainingForFreeShipping } from "@/lib/shipping";
 
 export default function CartDrawer() {
   const { items, isOpen, close, subtotal, remove, setQty, count } = useCart();
   const { t, lang } = useLang();
+  const en = lang === "en";
+  const remaining = remainingForFreeShipping(subtotal);
+  const progress = Math.min(100, Math.round((subtotal / FREE_SHIPPING_THRESHOLD) * 100));
+  const freeReached = remaining <= 0;
 
 
   return (
@@ -59,8 +64,9 @@ export default function CartDrawer() {
                       </button>
                     </div>
                     <span className="mt-0.5 flex items-center gap-1.5 text-xs text-encre/50">
-                      <span className="inline-block h-3 w-3 rounded-full border border-black/10" style={{ background: it.colorHex }} />
+                      {it.colorHex && <span className="inline-block h-3 w-3 rounded-full border border-black/10" style={{ background: it.colorHex }} />}
                       {it.color}
+                      {it.productId === "ace-gourde-pack-duo" && <span className="rounded bg-foret/10 px-1.5 py-0.5 text-[10px] font-bold text-foret">×2 {en ? "bottles" : "gourdes"}</span>}
                     </span>
                     <div className="mt-auto flex items-center justify-between">
                       <div className="inline-flex items-center rounded-full border border-foret/15">
@@ -76,12 +82,33 @@ export default function CartDrawer() {
             </div>
 
             <div className="border-t border-foret/10 px-5 py-5">
+              {/* Jauge livraison offerte */}
+              <div className="mb-4 rounded-xl bg-foret/[0.05] p-3">
+                <div className="flex items-center justify-between gap-2 text-xs font-medium text-encre/70">
+                  <span>
+                    {freeReached
+                      ? (en ? "🎉 You've unlocked free shipping!" : "🎉 Livraison offerte débloquée !")
+                      : (en ? <>Add <b className="text-foret">{remaining.toFixed(2)} €</b> for free shipping</> : <>Plus que <b className="text-foret">{remaining.toFixed(2)} €</b> pour la livraison offerte</>)}
+                  </span>
+                  <span className={`shrink-0 ${freeReached ? "text-emeraude" : "text-encre/40"}`} aria-hidden>
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M1 4h13v11H1z" /><path d="M14 8h4l3 3v4h-7" /><circle cx="6" cy="18" r="2" /><circle cx="17.5" cy="18" r="2" /></svg>
+                  </span>
+                </div>
+                <div className="mt-2 h-2 w-full overflow-hidden rounded-full bg-foret/10">
+                  <div className={`h-full rounded-full transition-all duration-500 ${freeReached ? "bg-emeraude" : "bg-lime"}`} style={{ width: `${progress}%` }} />
+                </div>
+              </div>
+
               <div className="mb-4 flex items-center justify-between">
                 <span className="text-sm text-encre/60">{t.cart.subtotal}</span>
                 <span className="font-display text-xl text-encre" style={{ fontWeight: 800 }}>{subtotal.toFixed(2)} €</span>
               </div>
               <Link href="/checkout" onClick={close} className="btn-primary block w-full text-center">{t.cart.checkout}</Link>
               <button onClick={close} className="btn-ghost mt-2 w-full">{t.cart.continue}</button>
+              <p className="mt-3 flex items-center justify-center gap-1.5 text-center text-[11px] text-encre/45">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden><rect x="4" y="11" width="16" height="10" rx="2" /><path d="M8 11V7a4 4 0 0 1 8 0v4" /></svg>
+                {en ? "Secure payment · card via Stripe" : "Paiement sécurisé · carte via Stripe"}
+              </p>
             </div>
           </>
         )}

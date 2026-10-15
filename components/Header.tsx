@@ -8,7 +8,8 @@ import { useCart } from "@/context/CartContext";
 import LangSwitch from "./LangSwitch";
 
 export default function Header() {
-  const { t } = useLang();
+  const { t, lang } = useLang();
+  const en = lang === "en";
   const { count, open } = useCart();
   const pathname = usePathname();
   const [mobileOpen, setMobileOpen] = useState(false);
@@ -22,10 +23,15 @@ export default function Header() {
   }, []);
   useEffect(() => setMobileOpen(false), [pathname]);
 
+  // Les 4 lignes du catalogue
+  const lines = [
+    { href: "/nos-equipements/ace-gourde", fr: "Gourdes Ace", en: "Ace bottles" },
+    { href: "/nos-equipements/ace-vibe", fr: "Ace Vibe", en: "Ace Vibe" },
+    { href: "/nos-equipements/ace-pack", fr: "Pack Ace", en: "Ace Pack" },
+    { href: "/nos-equipements/ace-gourde-pack-duo", fr: "Composez votre duo", en: "Build your duo" },
+  ];
   const links = [
     { href: "/", label: t.nav.home },
-    { href: "/nos-equipements", label: t.nav.shop },
-    { href: "/notre-procede", label: t.nav.process },
     { href: "/notre-histoire", label: t.nav.story },
   ];
   const isActive = (href: string) => (href === "/" ? pathname === "/" : pathname.startsWith(href));
@@ -38,7 +44,34 @@ export default function Header() {
         </Link>
 
         <nav className="hidden items-center gap-7 lg:flex">
-          {links.map((l) => (
+          <Link href="/" className={`relative pb-1 text-sm font-semibold transition-colors ${isActive("/") ? "text-foret" : "text-encre/70 hover:text-foret"}`}>
+            {t.nav.home}
+            {isActive("/") && <span className="absolute -bottom-0.5 left-0 h-[2px] w-full rounded-full bg-lime" />}
+          </Link>
+
+          {/* Nos équipements — menu déroulant des 4 lignes */}
+          <div className="group relative">
+            <Link href="/nos-equipements" className={`relative inline-flex items-center gap-1 pb-1 text-sm font-semibold transition-colors ${isActive("/nos-equipements") ? "text-foret" : "text-encre/70 hover:text-foret"}`}>
+              {t.nav.shop}
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" className="transition-transform group-hover:rotate-180"><path d="M6 9l6 6 6-6" /></svg>
+              {isActive("/nos-equipements") && <span className="absolute -bottom-0.5 left-0 h-[2px] w-[72%] rounded-full bg-lime" />}
+            </Link>
+            <div className="invisible absolute left-1/2 top-full z-50 w-60 -translate-x-1/2 pt-3 opacity-0 transition-all duration-200 group-hover:visible group-hover:opacity-100">
+              <div className="overflow-hidden rounded-2xl border border-foret/10 bg-white p-1.5 shadow-soft">
+                {lines.map((l) => (
+                  <Link key={l.href} href={l.href} className={`block rounded-xl px-3.5 py-2.5 text-sm font-semibold transition-colors hover:bg-foret/5 ${l.href.includes("duo") ? "text-terre" : "text-encre/80 hover:text-foret"}`}>
+                    {en ? l.en : l.fr}
+                    {l.href.includes("duo") && <span className="ml-1.5 align-middle text-[10px] font-bold uppercase tracking-wide text-terre/70">★</span>}
+                  </Link>
+                ))}
+                <Link href="/nos-equipements" className="mt-1 block rounded-xl bg-foret/5 px-3.5 py-2 text-center text-xs font-bold text-foret hover:bg-foret/10">
+                  {en ? "See all the range" : "Voir toute la gamme"}
+                </Link>
+              </div>
+            </div>
+          </div>
+
+          {links.slice(1).map((l) => (
             <Link key={l.href} href={l.href} className={`relative pb-1 text-sm font-semibold transition-colors ${isActive(l.href) ? "text-foret" : "text-encre/70 hover:text-foret"}`}>
               {l.label}
               {isActive(l.href) && <span className="absolute -bottom-0.5 left-0 h-[2px] w-full rounded-full bg-lime" />}
@@ -68,12 +101,14 @@ export default function Header() {
       {mobileOpen && (
         <div className="border-t border-foret/10 bg-sable lg:hidden">
           <nav className="container-x flex flex-col gap-1 py-4">
-            {links.map((l) => (
-              <Link key={l.href} href={l.href} className={`rounded-xl px-3 py-3 text-base font-semibold ${isActive(l.href) ? "bg-foret/5 text-foret" : "text-encre/80"}`}>
-                {isActive(l.href) && <span className="mr-2 inline-block h-2 w-2 rounded-full bg-lime align-middle" />}
-                {l.label}
-              </Link>
-            ))}
+            <Link href="/" className={`rounded-xl px-3 py-3 text-base font-semibold ${isActive("/") ? "bg-foret/5 text-foret" : "text-encre/80"}`}>{t.nav.home}</Link>
+            <Link href="/nos-equipements" className={`rounded-xl px-3 pb-1 pt-3 text-base font-semibold ${isActive("/nos-equipements") ? "text-foret" : "text-encre/80"}`}>{t.nav.shop}</Link>
+            <div className="mb-1 ml-3 flex flex-col gap-0.5 border-l-2 border-foret/10 pl-3">
+              {lines.map((l) => (
+                <Link key={l.href} href={l.href} className={`rounded-lg px-2 py-2 text-sm font-medium ${l.href.includes("duo") ? "text-terre" : "text-encre/70"}`}>{en ? l.en : l.fr}</Link>
+              ))}
+            </div>
+            <Link href="/notre-histoire" className={`rounded-xl px-3 py-3 text-base font-semibold ${isActive("/notre-histoire") ? "bg-foret/5 text-foret" : "text-encre/80"}`}>{t.nav.story}</Link>
             <Link href="/clubs" className="mt-1 rounded-xl bg-lime px-3 py-3 text-base font-bold text-encre">{t.nav.clubs}</Link>
             <Link href="/contact" className={`rounded-xl px-3 py-3 text-base font-semibold ${isActive("/contact") ? "bg-foret/5 text-foret" : "text-encre/80"}`}>{t.nav.contact}</Link>
             <div className="mt-3 px-1"><LangSwitch /></div>

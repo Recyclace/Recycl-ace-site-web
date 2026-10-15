@@ -5,6 +5,7 @@ import Image from "next/image";
 import { useCart } from "@/context/CartContext";
 import { useLang } from "@/context/LanguageContext";
 import { loadShopConfig, COUNTRY_NAMES } from "@/lib/shopConfig";
+import { computeShipping, remainingForFreeShipping, FREE_SHIPPING_THRESHOLD } from "@/lib/shipping";
 
 export default function CheckoutPage() {
   const { items, subtotal } = useCart();
@@ -17,8 +18,9 @@ export default function CheckoutPage() {
 
   useEffect(() => { loadShopConfig().then((c) => { setCfg(c); setF((p) => ({ ...p, country: c.saleCountries[0] || "FR" })); }); }, []);
 
-  const shipping = cfg.shipping[f.country] ?? 0;
+  const shipping = computeShipping(subtotal, f.country, cfg.shipping);
   const total = subtotal + shipping;
+  const remaining = f.country === "FR" ? remainingForFreeShipping(subtotal) : 0;
   const set = (k: string, v: string) => setF({ ...f, [k]: v });
 
   const submit = async (e: React.FormEvent) => {
@@ -82,7 +84,8 @@ export default function CheckoutPage() {
           ))}</div>
           <div className="border-t border-foret/10 pt-4 text-sm">
             <div className="flex justify-between text-encre/70"><span>{en ? "Subtotal" : "Sous-total"}</span><span>{subtotal.toFixed(2)} €</span></div>
-            <div className="mt-1 flex justify-between text-encre/70"><span>{en ? "Shipping" : "Livraison"} ({f.country})</span><span>{shipping.toFixed(2)} €</span></div>
+            <div className="mt-1 flex justify-between text-encre/70"><span>{en ? "Shipping" : "Livraison"} ({f.country})</span><span>{shipping === 0 ? (en ? "Free" : "Offerte") : `${shipping.toFixed(2)} €`}</span></div>
+            {remaining > 0 && <p className="mt-1 text-[11px] font-medium text-emeraude">{en ? `Add ${remaining.toFixed(2)} € for free shipping (from ${FREE_SHIPPING_THRESHOLD} €).` : `Plus que ${remaining.toFixed(2)} € pour la livraison offerte (dès ${FREE_SHIPPING_THRESHOLD} €).`}</p>}
             <div className="mt-2 flex justify-between font-display text-lg text-foret" style={{ fontWeight: 800 }}><span>Total</span><span>{total.toFixed(2)} €</span></div>
             <p className="mt-1 text-[11px] text-encre/40">{en ? "Promo code applied at payment." : "Code promo appliqué au moment du paiement."}</p>
           </div>

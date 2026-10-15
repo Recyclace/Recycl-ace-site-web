@@ -49,3 +49,46 @@ export async function sendOrderEmail(order: any) {
     });
   } catch (e) { console.error("[email] échec envoi", e); }
 }
+
+// E-mail de suivi d'expédition (envoyé quand l'admin renseigne le numéro de suivi).
+export async function sendTrackingEmail(order: any) {
+  const key = process.env.RESEND_API_KEY;
+  if (!key) { console.info("[email] RESEND_API_KEY manquante, e-mail de suivi non envoyé"); return false; }
+  const tracking = (order.tracking_number || "").toString().trim();
+  if (!tracking) return false; // garde-fou : jamais d'e-mail de suivi vide
+  const from = process.env.RESEND_FROM || "Recycl'ace <onboarding@resend.dev>";
+
+  let inv: any = {};
+  try { const db = adminDb(); if (db) { const { data } = await db.from("admin_config").select("invoice").eq("id", 1).maybeSingle(); inv = data?.invoice || {}; } } catch {}
+
+  const carrier = (order.carrier || "").toString().trim();
+  const trackUrl = `https://www.laposte.fr/outils/suivre-vos-envois?code=${encodeURIComponent(tracking)}`;
+  const d1 = new Date(); d1.setDate(d1.getDate() + 2); const d2 = new Date(); d2.setDate(d2.getDate() + 5);
+  const fmt = (d: Date) => d.toLocaleDateString("fr-FR");
+  const addr = [order.address, `${order.postal_code || ""} ${order.city || ""}`.trim(), order.country].filter(Boolean).join(", ");
+
+  const html = `
+  <div style="font-family:Arial,sans-serif;max-width:600px;margin:auto;color:#13302A">
+    <h2 style="color:#1F4A38">Votre commande est en route ${order.first_name || ""} ! 📦</h2>
+    <p>Bonne nouvelle : votre commande <strong>${order.order_number}</strong> vient d'être expédiée.</p>
+    <div style="background:#f4f7f2;border-radius:12px;padding:16px;margin:16px 0">
+      <p style="margin:0 0 6px">Numéro de suivi :</p>
+      <p style="margin:0;font-size:20px;font-weight:800;color:#0F6B5B">${tracking}</p>
+      ${carrier ? `<p style="margin:8px 0 0;font-size:13px;color:#555">Transporteur : ${carrier}</p>` : ""}
+      <p style="margin:12px 0 0"><a href="${trackUrl}" style="background:#1F4A38;color:#fff;text-decoration:none;padding:10px 18px;border-radius:999px;font-weight:700;display:inline-block">Suivre mon colis</a></p>
+    </div>
+    <p>Livraison estimée : entre le <strong>${fmt(d1)}</strong> et le <strong>${fmt(d2)}</strong>.</p>
+    <p style="font-size:13px;color:#555">Livré à : ${addr}</p>
+    <p>Merci encore pour votre engagement 🌱</p>
+    <p style="font-size:13px;color:#555">Une question ? Écrivez-nous à <a href="mailto:${inv.email || "recyclace@gmail.com"}">${inv.email || "recyclace@gmail.com"}</a>.</p>
+  </div>`;
+
+  try {
+    const r = await fetch("https://api.resend.com/emails", {
+      method: "POST",
+      headers: { Authorization: `Bearer ${key}`, "Content-Type": "application/json" },
+      body: JSON.stringify({ from, to: [order.email], bcc: ["recyclace@gmail.com"], reply_to: process.env.RESEND_REPLY_TO || "recyclace@gmail.com", subject: `Recycl'ace — Votre commande ${order.order_number} a été expédiée`, html }),
+    });
+    return r.ok;
+  } catch (e) { console.error("[email] échec envoi suivi", e); return false; }
+}

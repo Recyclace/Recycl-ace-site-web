@@ -1,6 +1,6 @@
 "use client";
 import { useEffect, useState } from "react";
-import { MapContainer, TileLayer, Marker, Tooltip } from "react-leaflet";
+import { MapContainer, TileLayer, Marker, Tooltip, useMap } from "react-leaflet";
 import L from "leaflet";
 import "leaflet/dist/leaflet.css";
 import { clubs, shops } from "@/lib/clubs";
@@ -18,6 +18,20 @@ const shopIcon = ball("#B5603A", "#7A3A22");
 
 type Pt = { kind: string; city: string; lat: number; lng: number };
 
+// Corrige le bug fréquent de "carte grise" : la carte est initialisée avant que
+// son conteneur ait ses dimensions. On force un recalcul après le montage + au resize.
+function MapReady() {
+  const map = useMap();
+  useEffect(() => {
+    const fix = () => map.invalidateSize();
+    const t1 = setTimeout(fix, 60);
+    const t2 = setTimeout(fix, 400);
+    window.addEventListener("resize", fix);
+    return () => { clearTimeout(t1); clearTimeout(t2); window.removeEventListener("resize", fix); };
+  }, [map]);
+  return null;
+}
+
 export default function PartnersMap() {
   const [pts, setPts] = useState<Pt[] | null>(null);
   useEffect(() => {
@@ -30,8 +44,9 @@ export default function PartnersMap() {
   const shopPts: Pt[] = pts ? pts.filter((p) => p.kind === "shop") : shops.map((s) => ({ kind: "shop", city: s.city, lat: s.lat, lng: s.lng }));
 
   return (
-    <MapContainer center={[46.7, 2.5]} zoom={5} scrollWheelZoom={false} style={{ height: "100%", width: "100%" }} className="rounded-xl2">
-      <TileLayer attribution="&copy; OpenStreetMap" url="https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png" />
+    <MapContainer center={[46.7, 2.5]} zoom={5} scrollWheelZoom={false} style={{ height: "100%", width: "100%", background: "#dfe7e3" }} className="rounded-xl2">
+      <MapReady />
+      <TileLayer attribution="&copy; OpenStreetMap, &copy; CARTO" url="https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png" subdomains={["a", "b", "c", "d"]} />
       {clubPts.map((c, i) => (
         <Marker key={`c${i}`} position={[Number(c.lat), Number(c.lng)]} icon={clubIcon}>
           <Tooltip direction="top" offset={[0, -8]}><span style={{ fontWeight: 700 }}>{c.city}</span></Tooltip>

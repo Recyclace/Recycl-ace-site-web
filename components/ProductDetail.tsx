@@ -6,6 +6,7 @@ import { Product, tField } from "@/lib/products";
 import { useLang } from "@/context/LanguageContext";
 import { useCart } from "@/context/CartContext";
 import { useProductOverride, discounted } from "@/lib/catalog";
+import RelatedProducts from "@/components/RelatedProducts";
 
 function Lines({ text }: { text: string }) {
   const lines = text.split("\n").filter(Boolean);
@@ -80,23 +81,29 @@ export default function ProductDetail({ product }: { product: Product }) {
         {/* Galerie */}
         <div>
           {product.dualColor ? (
-            <div className="grid grid-cols-2 gap-3">
-              {[color, color2].map((c, k) => (
-                <div key={k} className="relative aspect-square overflow-hidden rounded-xl2 bg-white shadow-card">
-                  <Image src={c.images[0]} alt={tField(c.name, lang)} fill sizes="25vw" className="object-contain p-4" />
-                  <span className="absolute bottom-2 left-2 rounded-full bg-sable/90 px-2 py-0.5 text-[10px] font-semibold text-foret">{tField(c.name, lang)}</span>
-                </div>
-              ))}
-            </div>
+            <>
+              <div className="grid grid-cols-2 gap-3">
+                {[color, color2].map((c, k) => (
+                  <div key={k} className="relative aspect-square overflow-hidden rounded-xl2 bg-sable shadow-card">
+                    <Image src={c.images[0]} alt={tField(c.name, lang)} fill sizes="25vw" className="object-contain p-4" />
+                    <span className="absolute bottom-2 left-2 rounded-full bg-white/90 px-2 py-0.5 text-[10px] font-semibold text-foret">{tField(c.name, lang)}</span>
+                  </div>
+                ))}
+              </div>
+              <p className="mt-3 inline-flex items-center gap-2 rounded-full bg-foret/5 px-3 py-1.5 text-xs font-semibold text-foret">
+                <span className="grid h-5 w-5 place-items-center rounded-full bg-foret text-[10px] font-bold text-lime">×2</span>
+                {en ? "Two bottles included — pick each colour" : "Deux gourdes incluses — choisissez chaque coloris"}
+              </p>
+            </>
           ) : (
             <>
-              <div className="relative aspect-square overflow-hidden rounded-xl2 bg-white shadow-card">
+              <div className="relative aspect-square overflow-hidden rounded-xl2 bg-sable shadow-card">
                 <Image key={color.images[imgIdx]} src={color.images[imgIdx]} alt={tField(product.name, lang)} fill sizes="(max-width:1024px) 100vw, 50vw" className="object-contain p-6 animate-fadeUp" priority />
               </div>
               {color.images.length > 1 && (
                 <div className="mt-4 flex flex-wrap gap-3">
                   {color.images.map((src, i) => (
-                    <button key={src} onClick={() => setImgIdx(i)} className={`relative h-16 w-16 overflow-hidden rounded-lg bg-white ${i === imgIdx ? "ring-2 ring-foret" : "ring-1 ring-black/5"}`}>
+                    <button key={src} onClick={() => setImgIdx(i)} className={`relative h-16 w-16 overflow-hidden rounded-lg bg-sable ${i === imgIdx ? "ring-2 ring-foret" : "ring-1 ring-black/5"}`}>
                       <Image src={src} alt="" fill sizes="64px" className="object-contain p-1.5" />
                     </button>
                   ))}
@@ -110,6 +117,17 @@ export default function ProductDetail({ product }: { product: Product }) {
         <div className="lg:pt-4">
           <span className="eyebrow">{tField(product.category, lang)}</span>
           <h1 className="h-display mt-2 text-3xl text-encre md:text-4xl">{tField(ov.name, lang)}</h1>
+          {(product.tagline || product.volume || product.madeInFrance) && (
+            <div className="mt-2 flex flex-wrap items-center gap-x-3 gap-y-1 text-sm font-normal text-encre/55">
+              {product.tagline && <span>{tField(product.tagline, lang)}</span>}
+              {product.volume && <span>· {product.volume}</span>}
+              {product.madeInFrance && (
+                <span className="inline-flex items-center gap-1.5">
+                  <Image src="/assets/logos/flag-fr.svg" alt="" width={16} height={11} className="h-3 w-auto" /> Made in France
+                </span>
+              )}
+            </div>
+          )}
           <p className="mt-4 font-display text-2xl text-foret" style={{ fontWeight: 800 }}>{ov.discount > 0 ? (<>{finalPrice.toFixed(2)} € <span className="ml-2 align-middle text-lg text-encre/40 line-through">{ov.price.toFixed(2)} €</span> <span className="ml-1 align-middle rounded bg-terre/15 px-2 py-0.5 text-sm font-bold text-terre">-{ov.discount}%</span></>) : (<>{finalPrice.toFixed(2)} €</>)}</p>
           <p className="mt-6 text-encre/70">{tField(ov.description, lang)}</p>
 
@@ -171,8 +189,18 @@ export default function ProductDetail({ product }: { product: Product }) {
               </div>
             ))}
           </div>
+
+          {/* Bouton clubs — grille de prix dédiée */}
+          <div className="mt-8 rounded-2xl border border-foret/10 bg-foret/[0.04] p-5">
+            <p className="text-sm font-semibold text-encre">{en ? "Are you a club?" : "Vous êtes un club ?"}</p>
+            <p className="mt-1 text-sm text-encre/60">{en ? "Dedicated pricing, customisation and volume offers for your members." : "Grille de prix dédiée, personnalisation et offres volume pour vos adhérents."}</p>
+            <Link href="/clubs" className="btn-outline mt-3 inline-flex">{en ? "Discover the club offer" : "Découvrir l'offre clubs"}</Link>
+          </div>
         </div>
       </div>
+
+      {/* Vous aimerez aussi */}
+      <RelatedProducts currentId={product.id} />
     </div>
   );
 }

@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import Stripe from "stripe";
 import { adminDb } from "@/lib/adminServer";
+import { computeShipping } from "@/lib/shipping";
 
 type Item = { name: string; price: number; qty: number; color: string; image?: string };
 type Customer = { first_name: string; last_name: string; email: string; phone: string; address: string; postal_code: string; city: string; country: string };
@@ -24,7 +25,7 @@ export async function POST(req: Request) {
     if (!saleCountries.includes(country)) return NextResponse.json({ error: "country_not_allowed" }, { status: 400 });
 
     const subtotal = items.reduce((s, it) => s + it.price * it.qty, 0);
-    let shipping = shippingMap[country] ?? 0;
+    let shipping = computeShipping(subtotal, country, shippingMap);
 
     // Validation code promo (serveur)
     let discount = 0; let freeShip = false; let promoCode: string | null = null;

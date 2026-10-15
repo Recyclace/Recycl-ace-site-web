@@ -1,13 +1,32 @@
 import { Lang } from "@/lib/i18n/dictionary";
 
-export type ProductColor = { key: string; name: { fr: string; en: string }; hex: string; images: string[] };
+export type Badge = { fr: string; en: string };
+export type BadgeStyle = { bg: string; text: string };
+export type ProductColor = { key: string; name: { fr: string; en: string }; hex: string; images: string[]; badge?: Badge; badgeStyle?: BadgeStyle };
 export type Accordion = { title: { fr: string; en: string }; body: { fr: string; en: string } };
 export type Product = {
   id: string; slug: string; name: { fr: string; en: string }; price: number;
   category: { fr: string; en: string }; description: { fr: string; en: string };
   colors: ProductColor[]; accordions: Accordion[];
-  badge?: { fr: string; en: string }; badgeStyle?: { bg: string; text: string };
+  badge?: Badge; badgeStyle?: BadgeStyle;
   dualColor?: boolean; noColor?: boolean; defaultColorKey?: string;
+  // Catalogue V6
+  menuLabel?: { fr: string; en: string };   // libellé court pour le menu / la ligne de catalogue
+  tagline?: { fr: string; en: string };      // ligne secondaire discrète ("Fait à partir de balles")
+  volume?: string;                            // ex. "75 cl"
+  madeInFrance?: boolean;                     // affiche la puce "Made in France"
+  highlight?: boolean;                        // mise en avant (ex. Composez votre duo)
+  cardImage?: string;                         // visuel de carte dédié (ex. duo = 2 gourdes)
+  perItemCount?: number;                      // nb d'unités par article (duo = 2) -> badge ×2
+};
+
+// Styles de badges réutilisables
+export const BADGE_STYLES: Record<string, BadgeStyle> = {
+  bestseller: { bg: "#A8D05D", text: "#13302A" },   // lime
+  nouveaute: { bg: "#0F6B5B", text: "#FFFFFF" },     // émeraude
+  edition: { bg: "#B49AD6", text: "#2E2147" },       // parme
+  composez: { bg: "#B5603A", text: "#FFFFFF" },      // terre battue
+  clubs: { bg: "#B49AD6", text: "#3A2B57" },
 };
 
 export const products: Product[] = [
@@ -18,14 +37,14 @@ export const products: Product[] = [
       "fr": "Ace Gourde",
       "en": "Ace Gourde"
     },
+    "menuLabel": { "fr": "Gourdes Ace", "en": "Ace bottles" },
+    "tagline": { "fr": "Fait à partir de balles", "en": "Made from recycled balls" },
+    "volume": "75 cl",
+    "madeInFrance": true,
     "price": 29.95,
     "category": {
       "fr": "Gourde 100% écoconçue",
       "en": "100% eco-designed bottle"
-    },
-    "badge": {
-      "fr": "Best-seller",
-      "en": "Best-seller"
     },
     "description": {
       "fr": "La première gourde dont le revêtement est fabriqué à partir de balles de tennis et de padel recyclées, éco-conçue en France.",
@@ -40,10 +59,10 @@ export const products: Product[] = [
         },
         "hex": "#0D1B3D",
         "images": [
-          "/assets/produits/gourde-bleu-1.jpg",
+          "/assets/produits/gourde-bleu-front.jpg",
+          "/assets/produits/gourde-bleu-box.jpg",
           "/assets/produits/gourde-bleu-2.jpg",
-          "/assets/produits/gourde-bleu-3.jpg",
-          "/assets/produits/gourde-bleu-4.jpg"
+          "/assets/produits/gourde-bleu-3.jpg"
         ]
       },
       {
@@ -54,24 +73,26 @@ export const products: Product[] = [
         },
         "hex": "#19A7A0",
         "images": [
-          "/assets/produits/gourde-turquoise-1.jpg",
+          "/assets/produits/gourde-turquoise-front.jpg",
+          "/assets/produits/gourde-turquoise-box.jpg",
           "/assets/produits/gourde-turquoise-2.jpg",
-          "/assets/produits/gourde-turquoise-3.jpg",
-          "/assets/produits/gourde-turquoise-4.jpg"
+          "/assets/produits/gourde-turquoise-3.jpg"
         ]
       },
       {
         "key": "terre",
         "name": {
-          "fr": "Terre Battue",
-          "en": "Clay"
+          "fr": "Ocre Terre Battue",
+          "en": "Clay Ochre"
         },
         "hex": "#B5603A",
+        "badge": { "fr": "Best seller", "en": "Best seller" },
+        "badgeStyle": { "bg": "#A8D05D", "text": "#13302A" },
         "images": [
-          "/assets/produits/gourde-terre-1.jpg",
+          "/assets/produits/gourde-terre-front.jpg",
+          "/assets/produits/gourde-terre-box.jpg",
           "/assets/produits/gourde-terre-2.jpg",
-          "/assets/produits/gourde-terre-3.jpg",
-          "/assets/produits/gourde-terre-4.jpg"
+          "/assets/produits/gourde-terre-3.jpg"
         ]
       },
       {
@@ -81,7 +102,11 @@ export const products: Product[] = [
           "en": "Lavender"
         },
         "hex": "#B9A6D6",
+        "badge": { "fr": "Édition limitée", "en": "Limited edition" },
+        "badgeStyle": { "bg": "#B49AD6", "text": "#2E2147" },
         "images": [
+          "/assets/produits/gourde-lavande-front.jpg",
+          "/assets/produits/gourde-lavande-box.jpg",
           "/assets/produits/gourde-lavande-1.jpg",
           "/assets/produits/gourde-lavande-2.jpg"
         ]
@@ -138,6 +163,11 @@ export const products: Product[] = [
       "fr": "Ace Vibe",
       "en": "Ace Vibe"
     },
+    "menuLabel": { "fr": "Ace Vibe", "en": "Ace Vibe" },
+    "tagline": { "fr": "Fait à partir de balles", "en": "Made from recycled balls" },
+    "madeInFrance": true,
+    "badge": { "fr": "Nouveauté", "en": "New" },
+    "badgeStyle": { "bg": "#0F6B5B", "text": "#FFFFFF" },
     "price": 9.99,
     "category": {
       "fr": "Anti-vibrateur",
@@ -257,13 +287,15 @@ export const products: Product[] = [
     "slug": "ace-pack",
     "defaultColorKey": "terre",
     "name": {
-      "fr": "Ace Pack",
+      "fr": "Pack Ace",
       "en": "Ace Pack"
     },
+    "menuLabel": { "fr": "Pack Ace", "en": "Ace Pack" },
+    "madeInFrance": true,
     "price": 34.99,
     "category": {
-      "fr": "Pack",
-      "en": "Bundle"
+      "fr": "La gourde + l'anti-vibrateur",
+      "en": "Bottle + dampener"
     },
     "description": {
       "fr": "Le combo essentiel : la Ace Gourde accompagnée d'une boîte d'Ace Vibe. L'équipement complet du joueur éco-responsable.",
@@ -278,8 +310,9 @@ export const products: Product[] = [
         },
         "hex": "#0D1B3D",
         "images": [
-          "/assets/produits/pack-bleu-2.jpg",
-          "/assets/produits/pack-bleu-1.jpg"
+          "/assets/produits/pack-bleu-set.jpg",
+          "/assets/produits/pack-bleu-1.jpg",
+          "/assets/produits/pack-bleu-2.jpg"
         ]
       },
       {
@@ -290,20 +323,22 @@ export const products: Product[] = [
         },
         "hex": "#19A7A0",
         "images": [
-          "/assets/produits/pack-turquoise-2.jpg",
-          "/assets/produits/pack-turquoise-1.jpg"
+          "/assets/produits/pack-turquoise-set.jpg",
+          "/assets/produits/pack-turquoise-1.jpg",
+          "/assets/produits/pack-turquoise-2.jpg"
         ]
       },
       {
         "key": "terre",
         "name": {
-          "fr": "Terre Battue",
-          "en": "Clay"
+          "fr": "Ocre Terre Battue",
+          "en": "Clay Ochre"
         },
         "hex": "#B5603A",
         "images": [
-          "/assets/produits/pack-terre-2.jpg",
-          "/assets/produits/pack-terre-1.jpg"
+          "/assets/produits/pack-terre-set.jpg",
+          "/assets/produits/pack-terre-1.jpg",
+          "/assets/produits/pack-terre-2.jpg"
         ]
       },
       {
@@ -314,8 +349,9 @@ export const products: Product[] = [
         },
         "hex": "#B9A6D6",
         "images": [
-          "/assets/produits/pack-lavande-2.jpg",
-          "/assets/produits/pack-lavande-1.jpg"
+          "/assets/produits/pack-lavande-set.jpg",
+          "/assets/produits/pack-lavande-1.jpg",
+          "/assets/produits/pack-lavande-2.jpg"
         ]
       }
     ],
@@ -347,15 +383,22 @@ export const products: Product[] = [
     "slug": "ace-gourde-pack-duo",
     "defaultColorKey": "turquoise",
     "name": {
-      "fr": "Ace Gourde — Pack Duo",
-      "en": "Ace Gourde — Duo Pack"
+      "fr": "Composez votre duo",
+      "en": "Build your duo"
     },
+    "menuLabel": { "fr": "Composez votre duo", "en": "Build your duo" },
     "price": 49.99,
     "category": {
-      "fr": "Pack",
-      "en": "Bundle"
+      "fr": "Duo de gourdes à personnaliser",
+      "en": "Customisable bottle duo"
     },
+    "badge": { "fr": "Composez-le", "en": "Build it" },
+    "badgeStyle": { "bg": "#B5603A", "text": "#FFFFFF" },
+    "madeInFrance": true,
     "dualColor": true,
+    "highlight": true,
+    "perItemCount": 2,
+    "cardImage": "/assets/produits/duo-hero.jpg",
     "description": {
       "fr": "Deux Ace Gourde, deux coloris à choisir indépendamment : à partager en double ou à offrir.",
       "en": "Two Ace Gourde, two colours chosen independently: to share in doubles or to gift."
@@ -369,10 +412,7 @@ export const products: Product[] = [
         },
         "hex": "#0D1B3D",
         "images": [
-          "/assets/produits/duo-bleu-1.jpg",
-          "/assets/produits/duo-bleu-2.jpg",
-          "/assets/produits/duo-bleu-3.jpg",
-          "/assets/produits/duo-bleu-4.jpg"
+          "/assets/produits/gourde-bleu-front.jpg"
         ]
       },
       {
@@ -383,24 +423,18 @@ export const products: Product[] = [
         },
         "hex": "#19A7A0",
         "images": [
-          "/assets/produits/duo-turquoise-1.jpg",
-          "/assets/produits/duo-turquoise-2.jpg",
-          "/assets/produits/duo-turquoise-3.jpg",
-          "/assets/produits/duo-turquoise-4.jpg"
+          "/assets/produits/gourde-turquoise-front.jpg"
         ]
       },
       {
         "key": "terre",
         "name": {
-          "fr": "Terre Battue",
-          "en": "Clay"
+          "fr": "Ocre Terre Battue",
+          "en": "Clay Ochre"
         },
         "hex": "#B5603A",
         "images": [
-          "/assets/produits/duo-terre-1.jpg",
-          "/assets/produits/duo-terre-2.jpg",
-          "/assets/produits/duo-terre-3.jpg",
-          "/assets/produits/duo-terre-4.jpg"
+          "/assets/produits/gourde-terre-front.jpg"
         ]
       },
       {
@@ -411,8 +445,7 @@ export const products: Product[] = [
         },
         "hex": "#B9A6D6",
         "images": [
-          "/assets/produits/duo-lavande-1.jpg",
-          "/assets/produits/duo-lavande-2.jpg"
+          "/assets/produits/gourde-lavande-front.jpg"
         ]
       }
     ],
@@ -451,6 +484,7 @@ export const products: Product[] = [
       "fr": "Lot de 50",
       "en": "Pack of 50"
     },
+    "madeInFrance": true,
     "noColor": true,
     "badge": {
       "fr": "Pour les clubs",

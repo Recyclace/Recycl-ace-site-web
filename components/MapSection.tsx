@@ -14,7 +14,7 @@ export default function MapSection() {
     <section className="container-x py-20">
       <div className="mb-10 text-center">
         <span className="eyebrow">{en ? "Our partner clubs & stores" : "Nos clubs & points de vente partenaires"}</span>
-        <h2 className="h-display mt-3 text-3xl text-encre md:text-4xl">{en ? "Join the movement!" : "Rejoignez le mouvement !"}</h2>
+        <h2 className="h-display mt-3 text-3xl text-encre md:text-4xl">{en ? "Join the Ace movement" : "Rejoignez le mouvement Ace"}</h2>
         <p className="mt-3 text-encre/60">{en ? "They already trust us — what about you?" : "Ils nous font déjà confiance, et vous ?"}</p>
       </div>
       <div className="grid gap-6 lg:grid-cols-[1.6fr_1fr]">
