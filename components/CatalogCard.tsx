@@ -11,7 +11,7 @@ export default function CatalogCard({
   badge?: Badge; madeInFrance?: boolean;
 }) {
   return (
-    <Link href={href} className="group flex flex-col">
+    <Link href={href} className="group flex w-[44vw] shrink-0 snap-start flex-col sm:w-[210px]">
       <div className="relative aspect-square overflow-hidden rounded-xl2 bg-sable shadow-card">
         <Image src={image} alt={title} fill sizes="(max-width:768px) 50vw, 22vw" className="object-contain p-4 transition-transform duration-500 group-hover:scale-105" />
         {madeInFrance && (

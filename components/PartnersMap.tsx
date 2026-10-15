@@ -18,16 +18,18 @@ const shopIcon = ball("#B5603A", "#7A3A22");
 
 type Pt = { kind: string; city: string; lat: number; lng: number };
 
-// Corrige le bug fréquent de "carte grise" : la carte est initialisée avant que
-// son conteneur ait ses dimensions. On force un recalcul après le montage + au resize.
+// Corrige le bug fréquent de "carte grise" : recalcul de la taille après montage + resize.
 function MapReady() {
   const map = useMap();
   useEffect(() => {
     const fix = () => map.invalidateSize();
-    const t1 = setTimeout(fix, 60);
-    const t2 = setTimeout(fix, 400);
+    const t1 = setTimeout(fix, 80);
+    const t2 = setTimeout(fix, 500);
+    const t3 = setTimeout(fix, 1200);
     window.addEventListener("resize", fix);
-    return () => { clearTimeout(t1); clearTimeout(t2); window.removeEventListener("resize", fix); };
+    let ro: ResizeObserver | null = null;
+    try { ro = new ResizeObserver(fix); ro.observe(map.getContainer()); } catch {}
+    return () => { clearTimeout(t1); clearTimeout(t2); clearTimeout(t3); window.removeEventListener("resize", fix); ro?.disconnect(); };
   }, [map]);
   return null;
 }
@@ -44,9 +46,14 @@ export default function PartnersMap() {
   const shopPts: Pt[] = pts ? pts.filter((p) => p.kind === "shop") : shops.map((s) => ({ kind: "shop", city: s.city, lat: s.lat, lng: s.lng }));
 
   return (
-    <MapContainer center={[46.7, 2.5]} zoom={5} scrollWheelZoom={false} style={{ height: "100%", width: "100%", background: "#dfe7e3" }} className="rounded-xl2">
+    <MapContainer center={[46.6, 2.4]} zoom={5} minZoom={4} scrollWheelZoom={false} style={{ height: "100%", width: "100%", background: "#dfe7e3" }} className="rounded-xl2">
       <MapReady />
-      <TileLayer attribution="&copy; OpenStreetMap, &copy; CARTO" url="https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png" subdomains={["a", "b", "c", "d"]} />
+      {/* Tuiles OpenStreetMap — open source, sans clé API */}
+      <TileLayer
+        attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+        url="https://tile.openstreetmap.org/{z}/{x}/{y}.png"
+        maxZoom={19}
+      />
       {clubPts.map((c, i) => (
         <Marker key={`c${i}`} position={[Number(c.lat), Number(c.lng)]} icon={clubIcon}>
           <Tooltip direction="top" offset={[0, -8]}><span style={{ fontWeight: 700 }}>{c.city}</span></Tooltip>
