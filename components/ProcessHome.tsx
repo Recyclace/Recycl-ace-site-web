@@ -55,7 +55,7 @@ export default function ProcessHome() {
           <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-4">
             {steps.map((s) => (
               <div key={s.n} className="flex flex-col">
-                <div className="relative mb-4 aspect-[4/3] overflow-hidden rounded-xl2 shadow-card">
+                <div className="relative mb-4 aspect-[3/4] overflow-hidden rounded-xl2 bg-sable shadow-card">
                   <Image src={s.img} alt={s.t} fill sizes="(max-width:768px) 100vw, 25vw" className="object-cover" />
                   <span className="absolute left-3 top-3 grid h-9 w-9 place-items-center rounded-full bg-foret font-display text-sm text-lime" style={{ fontWeight: 800 }}>{s.n}</span>
                 </div>
