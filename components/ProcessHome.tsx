@@ -1,4 +1,5 @@
 "use client";
+import Image from "next/image";
 import { useLang } from "@/context/LanguageContext";
 import BallAnatomy from "@/components/BallAnatomy";
 
@@ -6,7 +7,7 @@ export default function ProcessHome() {
   const { lang } = useLang();
   const en = lang === "en";
 
-  const steps = en
+  const steps = (en
     ? [
         { n: "01", t: "Ball collection", d: "We rely on the existing collection network to recover used tennis & padel balls." },
         { n: "02", t: "Equipment design", d: "We design our gear in-house, aiming for iconic pieces inspired by the sport." },
@@ -18,7 +19,8 @@ export default function ProcessHome() {
         { n: "02", t: "Design des équipements", d: "Nous concevons nos équipements en interne, iconiques et inspirés du milieu du sport." },
         { n: "03", t: "Production locale", d: "Production raisonnée et locale, avec un industriel français au savoir-faire unique et des circuits courts." },
         { n: "04", t: "Distribution", d: "Les équipements reviennent dans les mains des joueurs : une boucle de circularité complète." },
-      ];
+      ]
+  ).map((s, i) => ({ ...s, img: ["/assets/savoir/collecte.jpg", "/assets/savoir/design.jpg", "/assets/savoir/production.jpg", "/assets/savoir/distribution.jpg"][i] }));
 
   return (
     <section id="notre-procede" className="scroll-mt-24 bg-gradient-to-b from-foret to-encre py-16 text-sable md:py-24">
@@ -48,13 +50,16 @@ export default function ProcessHome() {
         {/* Bas : les 4 étapes + seconde vie, dans le même ensemble */}
         <div className="mt-14 border-t border-sable/15 pt-10">
           <div className="mb-8">
-            <h3 className="h-display text-2xl md:text-3xl">{en ? "A second life for every ball" : "Une seconde vie pour chaque balle"}</h3>
+            <h3 className="h-display text-2xl md:text-3xl">{en ? "Our value chain" : "Notre chaîne de valeur"}</h3>
           </div>
           <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-4">
             {steps.map((s) => (
-              <div key={s.n} className="border-t border-lime/30 pt-5">
-                <span className="font-display text-lime" style={{ fontWeight: 800 }}>{s.n}</span>
-                <h4 className="mt-2 text-lg font-semibold">{s.t}</h4>
+              <div key={s.n} className="flex flex-col">
+                <div className="relative mb-4 aspect-[4/3] overflow-hidden rounded-xl2 shadow-card">
+                  <Image src={s.img} alt={s.t} fill sizes="(max-width:768px) 100vw, 25vw" className="object-cover" />
+                  <span className="absolute left-3 top-3 grid h-9 w-9 place-items-center rounded-full bg-foret font-display text-sm text-lime" style={{ fontWeight: 800 }}>{s.n}</span>
+                </div>
+                <h4 className="text-lg font-semibold">{s.t}</h4>
                 <p className="mt-2 text-sm text-sable/70">{s.d}</p>
               </div>
             ))}

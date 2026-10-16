@@ -19,7 +19,7 @@ export default function ImmersiveShowcase() {
   const { lang } = useLang();
   const en = lang === "en";
   const [item, setItem] = useState(0);
-  const [colorKey, setColorKey] = useState<Record<number, string>>({ 0: "terre", 1: "terre" });
+  const [ck, setCk] = useState("terre"); // coloris partagé entre gourde et vibe
   const [paused, setPaused] = useState(false);
 
   useEffect(() => {
@@ -29,7 +29,6 @@ export default function ImmersiveShowcase() {
   }, [paused, item]);
 
   const cur = ITEMS[item];
-  const ck = colorKey[item] || "terre";
   const img = `/assets/sexy/${cur.prefix}-${ck}.jpg`;
   const colName = COLORS.find((c) => c.key === ck);
 
@@ -37,8 +36,8 @@ export default function ImmersiveShowcase() {
     <section className="bg-sable py-12 md:py-16" onMouseEnter={() => setPaused(true)} onMouseLeave={() => setPaused(false)}>
       <div className="container-x mb-6 text-center">
         <span className="eyebrow">{en ? "The Ace range" : "La gamme Ace"}</span>
-        <h2 className="h-display mx-auto mt-3 max-w-4xl text-2xl leading-tight text-encre md:text-4xl">
-          {en ? "Premium, durable and high-performance sports gear — made in France from recycled tennis balls." : "Des équipements de sport premium, durables et performants — fabriqués en France à partir de balles de tennis recyclées."}
+        <h2 className="h-display mx-auto mt-3 max-w-3xl text-2xl leading-tight text-encre md:text-4xl">
+          {en ? "Durable, high-performance gear, made from recycled tennis balls." : "Des équipements durables et performants, fabriqués à partir de balles de tennis recyclées."}
         </h2>
       </div>
 
@@ -59,7 +58,7 @@ export default function ImmersiveShowcase() {
         </div>
         <div className="flex items-center gap-2">
           {COLORS.map((c) => (
-            <button key={c.key} onClick={() => setColorKey((p) => ({ ...p, [item]: c.key }))} aria-label={en ? c.en : c.fr} title={en ? c.en : c.fr}
+            <button key={c.key} onClick={() => setCk(c.key)} aria-label={en ? c.en : c.fr} title={en ? c.en : c.fr}
               className={`h-4 w-4 rounded-full border transition-transform ${ck === c.key ? "scale-110 ring-2 ring-foret ring-offset-1 ring-offset-sable" : "border-black/10 hover:scale-105"}`}
               style={{ background: c.hex }} />
           ))}

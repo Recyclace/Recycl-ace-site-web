@@ -65,7 +65,7 @@ export default function ShopPage() {
         {(duo || pack) && (
           <CatalogRow title={en ? "Our bundles" : "Nos packs"}>
             {duo && (
-              <CatalogCard href="/nos-equipements/ace-gourde-pack-duo" image="/assets/produits/duo-hero.jpg" title={en ? "Build your duo" : "Composez votre duo"}
+              <CatalogCard href="/nos-equipements/ace-gourde-pack-duo" image="/assets/produits/duo-hero.jpg" title={en ? "Duo Pack" : "Pack Duo"}
                 subtitle={en ? "2 bottles · 2 colours" : "2 gourdes · 2 coloris"} price={euro(duo.price)}
                 badge={{ label: en ? "Build it" : "Composez-le", bg: "#B5603A", text: "#FFFFFF" }} />
             )}
@@ -86,7 +86,7 @@ export default function ShopPage() {
             </div>
             <div>
               <span className="eyebrow">{en ? "Make it yours" : "Personnalisez"}</span>
-              <h2 className="h-display mt-2 text-3xl text-encre md:text-4xl">{en ? "Build your duo" : "Composez votre duo"}</h2>
+              <h2 className="h-display mt-2 text-3xl text-encre md:text-4xl">{en ? "Build your Duo" : "Composez votre Duo"}</h2>
               <p className="mt-3 max-w-md text-encre/70">
                 {en ? "The perfect gift for your dream duo! Pick your favourite colours." : "Le cadeau idéal pour votre duo de choc ! Choisissez vos couleurs préférées."}
               </p>

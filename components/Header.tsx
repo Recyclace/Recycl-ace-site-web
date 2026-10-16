@@ -25,10 +25,10 @@ export default function Header() {
 
   // Les 4 lignes du catalogue
   const lines = [
-    { href: "/nos-equipements/ace-gourde", fr: "Gourdes Ace", en: "Ace bottles" },
+    { href: "/nos-equipements/ace-gourde", fr: "Ace gourdes", en: "Ace bottles" },
     { href: "/nos-equipements/ace-vibe", fr: "Ace Vibe", en: "Ace Vibe" },
     { href: "/nos-equipements/ace-pack", fr: "Pack Ace", en: "Ace Pack" },
-    { href: "/nos-equipements/ace-gourde-pack-duo", fr: "Composez votre duo", en: "Build your duo" },
+    { href: "/nos-equipements/ace-gourde-pack-duo", fr: "Composez votre Pack Duo", en: "Build your Duo Pack" },
   ];
   const links = [
     { href: "/", label: t.nav.home },
@@ -54,7 +54,7 @@ export default function Header() {
             <Link href="/nos-equipements" className={`relative inline-flex items-center gap-1 pb-1 text-sm font-semibold transition-colors ${isActive("/nos-equipements") ? "text-foret" : "text-encre/70 hover:text-foret"}`}>
               {t.nav.shop}
               <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" className="transition-transform group-hover:rotate-180"><path d="M6 9l6 6 6-6" /></svg>
-              {isActive("/nos-equipements") && <span className="absolute -bottom-0.5 left-0 h-[2px] w-[72%] rounded-full bg-lime" />}
+              {isActive("/nos-equipements") && <span className="absolute -bottom-0.5 left-0 h-[2px] w-full rounded-full bg-lime" />}
             </Link>
             <div className="invisible absolute left-1/2 top-full z-50 w-60 -translate-x-1/2 pt-3 opacity-0 transition-all duration-200 group-hover:visible group-hover:opacity-100">
               <div className="overflow-hidden rounded-2xl border border-foret/10 bg-white p-1.5 shadow-soft">

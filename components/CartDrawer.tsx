@@ -3,12 +3,18 @@ import Image from "next/image";
 import Link from "next/link";
 import { useCart } from "@/context/CartContext";
 import { useLang } from "@/context/LanguageContext";
+import { useCatalog } from "@/lib/catalog";
+import { tField } from "@/lib/products";
 import { FREE_SHIPPING_THRESHOLD, remainingForFreeShipping } from "@/lib/shipping";
 
 export default function CartDrawer() {
   const { items, isOpen, close, subtotal, remove, setQty, count } = useCart();
   const { t, lang } = useLang();
   const en = lang === "en";
+  const { list } = useCatalog();
+  // Suggestions "Vous aimerez aussi" : produits pas déjà dans le panier (hors lot de 50)
+  const inCart = new Set(items.map((i) => i.productId));
+  const suggestions = list.filter((p) => !inCart.has(p.id) && p.id !== "ace-vibe-boite-50").slice(0, 3);
   const remaining = remainingForFreeShipping(subtotal);
   const progress = Math.min(100, Math.round((subtotal / FREE_SHIPPING_THRESHOLD) * 100));
   const freeReached = remaining <= 0;
@@ -79,6 +85,24 @@ export default function CartDrawer() {
                   </div>
                 </div>
               ))}
+
+              {/* Vous aimerez aussi */}
+              {suggestions.length > 0 && (
+                <div className="border-t border-foret/10 pt-4">
+                  <p className="mb-2 text-xs font-bold uppercase tracking-wide text-encre/50">{en ? "You may also like" : "Vous aimerez aussi"}</p>
+                  <div className="grid grid-cols-3 gap-2">
+                    {suggestions.map((p) => (
+                      <Link key={p.id} href={`/nos-equipements/${p.slug}`} onClick={close} className="group">
+                        <div className="relative aspect-square overflow-hidden rounded-lg bg-sable">
+                          <Image src={p.cardImage || p.colors[0].images[0]} alt={tField(p.name, lang)} fill sizes="90px" className="object-contain p-1.5" />
+                        </div>
+                        <p className="mt-1 line-clamp-1 text-[11px] font-medium text-encre">{tField(p.name, lang)}</p>
+                        <p className="text-[11px] text-encre/55">{en ? "From" : "Dès"} {p.price.toFixed(2)} €</p>
+                      </Link>
+                    ))}
+                  </div>
+                </div>
+              )}
             </div>
 
             <div className="border-t border-foret/10 px-5 py-5">

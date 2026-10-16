@@ -304,8 +304,8 @@ export const products: Product[] = [
       "en": "Bottle + dampener"
     },
     "description": {
-      "fr": "Le combo essentiel : la Ace Gourde accompagnée d'une boîte d'Ace Vibe. L'équipement complet du joueur éco-responsable.",
-      "en": "The essential combo: the Ace Gourde paired with a box of Ace Vibe. The complete kit for the eco-responsible player."
+      "fr": "Le combo essentiel : la Ace Gourde accompagnée d'une boîte d'Ace Vibe. Le set complet du joueur circulaire.",
+      "en": "The essential combo: the Ace Gourde paired with a box of Ace Vibe. The complete set for the circular player."
     },
     "colors": [
       {
@@ -385,10 +385,10 @@ export const products: Product[] = [
     "slug": "ace-gourde-pack-duo",
     "defaultColorKey": "turquoise",
     "name": {
-      "fr": "Composez votre duo",
-      "en": "Build your duo"
+      "fr": "Pack Duo",
+      "en": "Duo Pack"
     },
-    "menuLabel": { "fr": "Composez votre duo", "en": "Build your duo" },
+    "menuLabel": { "fr": "Composez votre Pack Duo", "en": "Build your Duo Pack" },
     "price": 49.99,
     "category": {
       "fr": "Duo de gourdes à personnaliser",
