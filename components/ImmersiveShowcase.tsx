@@ -37,7 +37,7 @@ export default function ImmersiveShowcase() {
       <div className="container-x mb-6 text-center">
         <span className="eyebrow">{en ? "The Ace range" : "La gamme Ace"}</span>
         <h2 className="h-display mx-auto mt-3 max-w-3xl text-2xl leading-tight text-encre md:text-4xl">
-          {en ? "Durable, high-performance gear, made from recycled tennis balls." : "Des équipements durables et performants, fabriqués à partir de balles de tennis recyclées."}
+          {en ? "Durable, high-performance gear, made from recycled balls." : "Des équipements durables et performants, fabriqués à partir de balles recyclées."}
         </h2>
       </div>
 

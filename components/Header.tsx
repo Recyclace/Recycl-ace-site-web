@@ -28,7 +28,7 @@ export default function Header() {
     { href: "/nos-equipements/ace-gourde", fr: "Ace gourdes", en: "Ace bottles" },
     { href: "/nos-equipements/ace-vibe", fr: "Ace Vibe", en: "Ace Vibe" },
     { href: "/nos-equipements/ace-pack", fr: "Pack Ace", en: "Ace Pack" },
-    { href: "/nos-equipements/ace-gourde-pack-duo", fr: "Composez votre Pack Duo", en: "Build your Duo Pack" },
+    { href: "/nos-equipements/ace-gourde-pack-duo", fr: "Composez votre Pack", en: "Build your Pack" },
   ];
   const links = [
     { href: "/", label: t.nav.home },

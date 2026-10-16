@@ -431,8 +431,8 @@ export const products: Product[] = [
       {
         "key": "terre",
         "name": {
-          "fr": "Ocre Terre Battue",
-          "en": "Clay Ochre"
+          "fr": "Terre Battue",
+          "en": "Clay"
         },
         "hex": "#B5603A",
         "images": [

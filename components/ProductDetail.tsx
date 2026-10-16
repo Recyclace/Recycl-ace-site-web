@@ -144,7 +144,7 @@ export default function ProductDetail({ product }: { product: Product }) {
               <p className="mb-2 text-sm font-semibold text-encre">{t.shop.color} : <span className="font-normal text-encre/60">{tField(color.name, lang)}</span></p>
               <div className="flex items-center gap-3">
                 {product.colors.map((c, i) => (
-                  <button key={c.key} onClick={() => selectColor(i)} aria-label={tField(c.name, lang)} title={tField(c.name, lang)} className={`h-9 w-9 rounded-full border transition-transform ${i === colorIdx ? "scale-110 ring-2 ring-foret ring-offset-2" : "border-black/10 hover:scale-105"}`} style={{ background: c.hex }} />
+                  <button key={c.key} onClick={() => selectColor(i)} aria-label={tField(c.name, lang)} title={tField(c.name, lang)} className={`h-6 w-6 rounded-full border transition-transform ${i === colorIdx ? "scale-110 ring-2 ring-foret ring-offset-2" : "border-black/10 hover:scale-105"}`} style={{ background: c.hex }} />
                 ))}
               </div>
             </div>
@@ -158,7 +158,7 @@ export default function ProductDetail({ product }: { product: Product }) {
                   <p className="mb-2 text-sm font-semibold text-encre">{row.label} : <span className="font-normal text-encre/60">{tField(product.colors[row.idx].name, lang)}</span></p>
                   <div className="flex items-center gap-3">
                     {product.colors.map((c, i) => (
-                      <button key={c.key} onClick={() => row.set(i)} aria-label={tField(c.name, lang)} title={tField(c.name, lang)} className={`h-9 w-9 rounded-full border transition-transform ${i === row.idx ? "scale-110 ring-2 ring-foret ring-offset-2" : "border-black/10 hover:scale-105"}`} style={{ background: c.hex }} />
+                      <button key={c.key} onClick={() => row.set(i)} aria-label={tField(c.name, lang)} title={tField(c.name, lang)} className={`h-6 w-6 rounded-full border transition-transform ${i === row.idx ? "scale-110 ring-2 ring-foret ring-offset-2" : "border-black/10 hover:scale-105"}`} style={{ background: c.hex }} />
                     ))}
                   </div>
                 </div>
